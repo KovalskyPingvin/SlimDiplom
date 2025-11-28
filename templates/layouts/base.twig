@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}ITech{% endblock %}</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+{% include 'components/navbar.twig' %}
+
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+{% include 'components/footer.twig' %}
+
+<!-- Login Modal -->
+<div id="loginModal" class="modal-overlay">
+    <div class="modal-container">
+        <button class="modal-close" id="closeModal">&times;</button>
+        <h1 class="modal-title">Вход в систему</h1>
+        <form id="loginForm">
+            <input type="text" id="InputLogin" class="modal-input" placeholder="Логин" required>
+            <input type="password" id="InputPassword" class="modal-input" placeholder="Пароль" required>
+            <label class="remember-label">
+                <input type="checkbox" id="rememberMe"> Запомнить меня
+            </label>
+            <div id="loginError" class="modal-error"></div>
+            <button type="submit" class="modal-submit">Войти</button>
+        </form>
+    </div>
+</div>
+
+<script src="/js/app.js"></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

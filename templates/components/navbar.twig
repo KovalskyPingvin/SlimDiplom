@@ -1,0 +1,52 @@
+{# templates/components/navbar.twig #}
+<div class="sidebar" id="sidebar">
+    <button class="navbar-toggler" id="navbarToggle">&#9776;</button>
+    <div class="sidebar-content">
+        <div class="sidebar-top">
+            <a href="/"><i class="fas fa-home"></i> <span class="link-text">Главная</span></a>
+            <a href="/about"><i class="fas fa-book"></i> <span class="link-text">Документация</span></a>
+        </div>
+
+        <div class="sidebar-bottom">
+            {% if session.id_user is defined %}
+                <div class="user-info">
+                    <i class="fas fa-user"></i> <span class="link-text">{{ session.username|e }}</span>
+                </div>
+
+                <a href="/notification/notification.php" id="notificationButton" class="sidebar-btn">
+                    <i class="fas fa-bell"></i> <span class="link-text">Уведомления</span>
+                </a>
+
+                {% if session.id_user >= 0 %}
+                    <a href="/sending" class="sidebar-btn">
+                        <i class="fas fa-paper-plane"></i> <span class="link-text">Подать заявку</span>
+                    </a>
+                    <a href="/requests" class="sidebar-btn">
+                        <i class="fas fa-list"></i> <span class="link-text">Заявки</span>
+                    </a>
+                {% endif %}
+
+                {% if session.id_user <= 2 %}
+                    <a href="/admin" class="sidebar-btn">
+                        <i class="fas fa-tools"></i> <span class="link-text">Администрирование</span>
+                    </a>
+                {% endif %}
+
+                <a href="/logout" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> <span class="link-text">Выйти</span>
+                </a>
+            {% else %}
+                <a href="#" id="loginButton" class="login-btn">
+                    <i class="fas fa-sign-in-alt"></i> <span class="link-text">Войти</span>
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('navbarToggle')?.addEventListener('click', function () {
+        const sidebar = document.getElementById('sidebar');
+        sidebar?.classList.toggle('active');
+    });
+</script>
