@@ -1,0 +1,42 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+}
+
+.admin-container {
+    margin-left: 220px; /* Отступ под левый навбар */
+    padding: 40px;
+    min-height: calc(100vh - 100px); /* Учитывая футер */
+}
+
+.admin-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: #003366;
+}
+
+.admin-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.admin-button {
+    background-color: #003366;
+    color: white;
+    border: none;
+    padding: 18px 30px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    min-width: 250px;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.admin-button:hover {
+    background-color: #0059b3;
+}

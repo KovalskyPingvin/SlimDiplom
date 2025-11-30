@@ -1,0 +1,35 @@
+{% extends 'layouts/base.twig' %}
+
+{% block title %}Панель администратора | Главная{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="/css/admin/adminpagestyle.css">
+{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+    <div class="admin-title">Панель администратора</div>
+
+    <div class="admin-buttons">
+        <button class="admin-button" onclick="location.href='/admin/requests'">
+            Реестр заявок всех пользователей
+        </button>
+        <button class="admin-button" onclick="location.href='/admin/editusers'">
+            Управление учетными записями
+        </button>
+        <button class="admin-button" onclick="location.href='/admin/compatibility'">
+            Совместимость
+        </button>
+        <button class="admin-button" onclick="location.href='/admin/storage'">
+            Склад
+        </button>
+        <button class="admin-button" onclick="location.href='/admin/writeoff'">
+            Списание
+        </button>
+        <button class="admin-button" onclick="location.href='/admin/setting'">
+            Настройки заявок
+        </button>
+    </div>
+</div>
+
+{% endblock %}

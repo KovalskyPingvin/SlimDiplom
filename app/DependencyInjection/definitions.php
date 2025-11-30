@@ -6,51 +6,40 @@ use Slim\Views\Twig;
 use Twig\Loader\FilesystemLoader;
 use App\Controllers\User\Models\UserModel;
 use App\Controllers\User\Models\Auth;
+use App\Controllers\Admin\Models\CompatibilityModel;
 
 return [
     // === Подключение к базе данных (PDO) ===
     \PDO::class => function (ContainerInterface $container) {
         $config = require __DIR__ . '/../../config/database.php';
-        $db = $config['db'];
-
-        $dsn = sprintf(
-            'mysql:host=%s;dbname=%s;charset=%s',
-            $db['host'],
-            $db['dbname'],
-            $db['charset'] ?? 'utf8mb4'
+        return new \PDO(
+            sprintf('mysql:host=%s;dbname=%s;charset=%s', 
+                $config['db']['host'],
+                $config['db']['dbname'],
+                $config['db']['charset'] ?? 'utf8mb4'
+            ),
+            $config['db']['username'],
+            $config['db']['password'],
+            [
+                \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+                \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
+            ]
         );
-
-        $options = [
-            \PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
-            \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
-            \PDO::ATTR_EMULATE_PREPARES   => false,
-        ];
-
-        return new \PDO($dsn, $db['username'], $db['password'], $options);
     },
 
-    // === Twig — шаблонизатор (совместимый способ) ===
+    // === Twig ===
     Twig::class => function (ContainerInterface $container) {
         $loader = new FilesystemLoader(__DIR__ . '/../../templates');
-        $twigView = new Twig($loader, [
-            'cache'       => __DIR__ . '/../../var/cache/twig',
-            'debug'       => true,
+        $twig = new Twig($loader, [
+            'cache' => __DIR__ . '/../../var/cache/twig',
+            'debug' => true,
             'auto_reload' => true,
         ]);
-
-        // Получаем внутренний Twig\Environment и добавляем глобал
-        $environment = $twigView->getEnvironment();
-        $environment->addGlobal('session', $_SESSION ?? []);
-
-        return $twigView;
+        $twig->getEnvironment()->addGlobal('session', $_SESSION ?? []);
+        return $twig;
     },
 
-    // === Модели и сервисы пользователя ===
-    UserModel::class => function (ContainerInterface $container) {
-        return new UserModel($container->get(\PDO::class));
-    },
-
-    Auth::class => function (ContainerInterface $container) {
-        return new Auth($container->get(UserModel::class));
-    },
+    // === Модели ===
+    // НЕ НУЖНО явно регистрировать, если конструктор принимает известные зависимости
+    // PHP-DI автоматически сделает autowire
 ];

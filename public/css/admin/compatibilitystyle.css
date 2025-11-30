@@ -1,0 +1,311 @@
+/* Общие стили */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #f4f4f4;
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.content-wrapper {
+    flex: 1 0 auto; /* основной контент занимает всё доступное место */
+}
+
+/* Обертка таблицы */
+.table-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 0; /* убираем боковые отступы, т.к. есть в content-wrapper */
+    margin-bottom: 0; /* убираем нижний отступ, чтобы футер прилегал */
+}
+
+/* Таблица */
+table {
+    width: 100%;         
+    max-width: 900px;    
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+table th,
+table td {
+    border: 1px solid #ccc;
+    padding: 8px 12px;   
+    text-align: left;
+    white-space: normal; 
+}
+
+table th {
+    background-color: #002b5e;
+    color: white;
+    font-weight: bold;
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+table tr:hover {
+    background-color: #eef;
+}
+
+td.cartridges-cell {
+    white-space: normal;  
+    max-width: 300px;
+    word-wrap: break-word;
+}
+
+.center-button {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Кнопки */
+.btn-add,
+.btn-edit,
+.delete-btn {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    font-size: 0.95em;
+    min-width: 120px;
+}
+
+.modal-content button[type="submit"] {
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    min-width: 120px;
+    text-align: center;
+    display: inline-block;
+}
+
+/* Цвета кнопок */
+.btn-add {
+    background-color: #002b5e;
+}
+.btn-add:hover {
+    background-color: #001f4a;
+}
+
+.btn-edit,
+.modal-content button[type="submit"] {
+    background-color: #007bff;
+}
+.btn-edit:hover,
+.modal-content button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+.delete-btn {
+    background-color: #dc3545;
+}
+.delete-btn:hover {
+    background-color: #c9302c;
+}
+
+/* Вспомогательная серая кнопка */
+.modal-content button[type="button"] {
+    background-color: #ccc;
+    color: #333;
+    margin-right: 10px;
+}
+.modal-content button[type="button"]:hover {
+    background-color: #aaa;
+}
+
+/* Модальное окно совместимости */
+.modal-compatibility {
+    display: none; /* скрыто по умолчанию */
+    position: fixed;
+    inset: 0; /* заменяет left:0; top:0; width:100vw; height:100vh */
+    z-index: 2000;
+    background-color: rgba(0,0,0,0.5);
+
+    /* Центровка содержимого */
+    justify-content: center;
+    align-items: center;
+}
+
+/* Когда нужно показать — добавляем класс .active через JS */
+.modal-compatibility.active {
+    display: flex;
+}
+
+
+.modal-content {
+    background-color: white;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    padding: 30px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    font-size: 22px;
+    color: #002b5e;
+    text-align: center;
+}
+
+.modal-content label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+.modal-content input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+/* Закрыть (крестик) */
+.close,
+.close-edit {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    color: #aaa;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.close:hover,
+.close-edit:hover {
+    color: black;
+}
+
+table th:last-child,
+table td:last-child {
+    width: 120px; 
+    white-space: nowrap;
+    text-align: center;
+}
+
+/* Заголовок */
+.h1-comp {
+    text-align: center;
+    font-size: 2em;
+    margin: 30px 0 20px;
+    color: #002b5e;
+    font-weight: 600;
+}
+
+/* Футер */
+footer {
+    flex-shrink: 0; /* не сжимается */
+    background-color: black;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Для удобства, чтобы инпуты не слишком сильно влияли на ширину */
+.table-wrapper input[type="text"] {
+	width: 90%;
+	box-sizing: border-box;
+}
+
+ /* Стили для крестиков удаления */
+ .cartridge-input-row {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+ }
+ .cartridge-input-row input[type="text"] {
+    flex-grow: 1;
+    padding: 6px 8px;
+    font-size: 14px;
+}
+.remove-cartridge-btn {
+    background: transparent;
+    border: none;
+    color: #c00;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    margin-left: 6px;
+    padding: 0 6px;
+    user-select: none;
+    transition: color 0.2s ease-in-out;
+}
+.remove-cartridge-btn:hover {
+    color: #900;
+}
+
+.cartridges-cell {
+    /* Чтобы элементы красиво переносились на новую строку при нехватке места */
+    flex-wrap: wrap;
+    gap: 6px; /* расстояние между картриджами */
+}
+
+.cartridge-item {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 3px 8px;
+    font-size: 0.9em;
+    color: #333;
+    white-space: nowrap; /* чтобы картридж не переносился на несколько строк */
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+    user-select: none;
+}
+
+.btn-export {
+    background-color: #0078d7;
+    color: #fff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-left: 10px;
+}
+
+.btn-export:hover {
+    background-color: #005fa3;
+}
+
+.modal-compatibility .close,
+.modal-compatibility .close-edit,
+.modal-compatibility .close-export {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;       /* ✅ делаем курсор в виде руки */
+    user-select: none;     /* ✅ нельзя выделять текст */
+    transition: color 0.3s;
+}
+
+.modal-compatibility .close:hover,
+.modal-compatibility .close-edit:hover,
+.modal-compatibility .close-export:hover {
+    color: red;
+}

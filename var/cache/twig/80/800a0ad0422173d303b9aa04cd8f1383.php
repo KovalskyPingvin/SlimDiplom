@@ -33,6 +33,7 @@ class __TwigTemplate_53615c0637e145e299bf9fa4beef3cce extends Template
 
         $this->blocks = [
             'title' => [$this, 'block_title'],
+            'extra_css' => [$this, 'block_extra_css'],
             'content' => [$this, 'block_content'],
             'extra_js' => [$this, 'block_extra_js'],
         ];
@@ -46,32 +47,36 @@ class __TwigTemplate_53615c0637e145e299bf9fa4beef3cce extends Template
 <html lang=\"ru\">
 <head>
     <meta charset=\"UTF-8\">
-    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
+    <meta name=\"torrent\" content=\"width=device-width, initial-scale=1.0\">
     <title>";
         // line 6
         yield from $this->unwrap()->yieldBlock('title', $context, $blocks);
         yield "</title>
     <link rel=\"stylesheet\" href=\"/css/style.css\">
     <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css\">
+    ";
+        // line 9
+        yield from $this->unwrap()->yieldBlock('extra_css', $context, $blocks);
+        yield "  <!-- ← ЭТО ДОБАВЬ -->
 </head>
 <body>
 
 ";
-        // line 12
-        yield from $this->load("components/navbar.twig", 12)->unwrap()->yield($context);
         // line 13
+        yield from $this->load("components/navbar.twig", 13)->unwrap()->yield($context);
+        // line 14
         yield "
 <main>
     ";
-        // line 15
-        yield from $this->unwrap()->yieldBlock('content', $context, $blocks);
         // line 16
+        yield from $this->unwrap()->yieldBlock('content', $context, $blocks);
+        // line 17
         yield "</main>
 
 ";
-        // line 18
-        yield from $this->load("components/footer.twig", 18)->unwrap()->yield($context);
         // line 19
+        yield from $this->load("components/footer.twig", 19)->unwrap()->yield($context);
+        // line 20
         yield "
 <!-- Login Modal -->
 <div id=\"loginModal\" class=\"modal-overlay\">
@@ -92,9 +97,9 @@ class __TwigTemplate_53615c0637e145e299bf9fa4beef3cce extends Template
 
 <script src=\"/js/app.js\"></script>
 ";
-        // line 38
-        yield from $this->unwrap()->yieldBlock('extra_js', $context, $blocks);
         // line 39
+        yield from $this->unwrap()->yieldBlock('extra_js', $context, $blocks);
+        // line 40
         yield "</body>
 </html>";
         yield from [];
@@ -111,7 +116,17 @@ class __TwigTemplate_53615c0637e145e299bf9fa4beef3cce extends Template
         yield from [];
     }
 
-    // line 15
+    // line 9
+    /**
+     * @return iterable<null|scalar|\Stringable>
+     */
+    public function block_extra_css(array $context, array $blocks = []): iterable
+    {
+        $macros = $this->macros;
+        yield from [];
+    }
+
+    // line 16
     /**
      * @return iterable<null|scalar|\Stringable>
      */
@@ -121,7 +136,7 @@ class __TwigTemplate_53615c0637e145e299bf9fa4beef3cce extends Template
         yield from [];
     }
 
-    // line 38
+    // line 39
     /**
      * @return iterable<null|scalar|\Stringable>
      */
@@ -152,7 +167,7 @@ class __TwigTemplate_53615c0637e145e299bf9fa4beef3cce extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  125 => 38,  115 => 15,  104 => 6,  98 => 39,  96 => 38,  75 => 19,  73 => 18,  69 => 16,  67 => 15,  63 => 13,  61 => 12,  52 => 6,  45 => 1,);
+        return array (  140 => 39,  130 => 16,  120 => 9,  109 => 6,  103 => 40,  101 => 39,  80 => 20,  78 => 19,  74 => 17,  72 => 16,  68 => 14,  66 => 13,  59 => 9,  53 => 6,  46 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -161,10 +176,11 @@ class __TwigTemplate_53615c0637e145e299bf9fa4beef3cce extends Template
 <html lang=\"ru\">
 <head>
     <meta charset=\"UTF-8\">
-    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
+    <meta name=\"torrent\" content=\"width=device-width, initial-scale=1.0\">
     <title>{% block title %}ITech{% endblock %}</title>
     <link rel=\"stylesheet\" href=\"/css/style.css\">
     <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css\">
+    {% block extra_css %}{% endblock %}  <!-- ← ЭТО ДОБАВЬ -->
 </head>
 <body>
 
