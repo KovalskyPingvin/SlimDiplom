@@ -84,7 +84,7 @@ class __TwigTemplate_568b8e0f722b08d6ccf7af187eb502f2 extends Template
         yield "<div class=\"container-form\">
     <h1>Заполните форму заявки</h1>
 
-    <form id=\"templateForm\" method=\"post\">
+    <form id=\"templateForm\" method=\"post\" action=\"/sending/submit\">
         <div>
             <label for=\"departmentName\">Название отдела:</label>
             <input type=\"text\" id=\"departmentName\" name=\"departmentName\" required>
@@ -125,53 +125,9 @@ class __TwigTemplate_568b8e0f722b08d6ccf7af187eb502f2 extends Template
 
 <div id=\"webOutput\"></div>
 
-<div id=\"modal-sending\" class=\"modal-sending\">
-  <div class=\"modal-content\">
-    <p id=\"modal-sending-message\"></p>
-    <button onclick=\"closeModalSending()\">Закрыть</button>
-  </div>
-</div>
-
-<script>
-function closeModalSending() {
-    document.getElementById('modal-sending').classList.remove('active');
-}
-
-document.getElementById('templateForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    const formData = new FormData(this);
-
-    fetch('/sending/submit', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => {
-        console.log('Статус ответа:', response.status);
-        if (!response.ok) {
-            throw new Error('Сетевая ошибка: ' + response.status);
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log('Ответ от сервера:', data); // ← Для отладки
-        document.getElementById('modal-sending-message').textContent = data.message;
-        document.getElementById('modal-sending').classList.add('active');
-        if (data.success) {
-            this.reset();
-        }
-    })
-    .catch(error => {
-        console.error('Ошибка JS:', error); // ← Для отладки
-        document.getElementById('modal-sending-message').textContent = 'Ошибка отправки заявки: ' + error.message;
-        document.getElementById('modal-sending').classList.add('active');
-    });
-});
-</script>
-
 ";
-        // line 98
-        yield from $this->load("components/notification.twig", 98)->unwrap()->yield($context);
+        // line 54
+        yield from $this->load("components/notification.twig", 54)->unwrap()->yield($context);
         yield from [];
     }
 
@@ -196,7 +152,7 @@ document.getElementById('templateForm').addEventListener('submit', function(e) {
      */
     public function getDebugInfo(): array
     {
-        return array (  174 => 98,  84 => 10,  77 => 9,  71 => 6,  64 => 5,  53 => 3,  42 => 1,);
+        return array (  130 => 54,  84 => 10,  77 => 9,  71 => 6,  64 => 5,  53 => 3,  42 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -213,7 +169,7 @@ document.getElementById('templateForm').addEventListener('submit', function(e) {
 <div class=\"container-form\">
     <h1>Заполните форму заявки</h1>
 
-    <form id=\"templateForm\" method=\"post\">
+    <form id=\"templateForm\" method=\"post\" action=\"/sending/submit\">
         <div>
             <label for=\"departmentName\">Название отдела:</label>
             <input type=\"text\" id=\"departmentName\" name=\"departmentName\" required>
@@ -253,50 +209,6 @@ document.getElementById('templateForm').addEventListener('submit', function(e) {
 </div>
 
 <div id=\"webOutput\"></div>
-
-<div id=\"modal-sending\" class=\"modal-sending\">
-  <div class=\"modal-content\">
-    <p id=\"modal-sending-message\"></p>
-    <button onclick=\"closeModalSending()\">Закрыть</button>
-  </div>
-</div>
-
-<script>
-function closeModalSending() {
-    document.getElementById('modal-sending').classList.remove('active');
-}
-
-document.getElementById('templateForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    const formData = new FormData(this);
-
-    fetch('/sending/submit', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => {
-        console.log('Статус ответа:', response.status);
-        if (!response.ok) {
-            throw new Error('Сетевая ошибка: ' + response.status);
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log('Ответ от сервера:', data); // ← Для отладки
-        document.getElementById('modal-sending-message').textContent = data.message;
-        document.getElementById('modal-sending').classList.add('active');
-        if (data.success) {
-            this.reset();
-        }
-    })
-    .catch(error => {
-        console.error('Ошибка JS:', error); // ← Для отладки
-        document.getElementById('modal-sending-message').textContent = 'Ошибка отправки заявки: ' + error.message;
-        document.getElementById('modal-sending').classList.add('active');
-    });
-});
-</script>
 
 {% include 'components/notification.twig' %}
 {% endblock %}", "application/cartridge_form.twig", "D:\\OSPanel\\domains\\slimdiplom\\templates\\application\\cartridge_form.twig");

@@ -47,7 +47,7 @@ class __TwigTemplate_a4ac73a03da5b80a49927259b0e6df72 extends Template
 <html lang=\"ru\">
 <head>
     <meta charset=\"UTF-8\">
-    <meta name=\"torrent\" content=\"width=device-width, initial-scale=1.0\">
+    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
     <title>";
         // line 6
         yield from $this->unwrap()->yieldBlock('title', $context, $blocks);
@@ -57,8 +57,8 @@ class __TwigTemplate_a4ac73a03da5b80a49927259b0e6df72 extends Template
     ";
         // line 9
         yield from $this->unwrap()->yieldBlock('extra_css', $context, $blocks);
-        yield "  <!-- ← ЭТО ДОБАВЬ -->
-</head>
+        // line 10
+        yield "</head>
 <body>
 
 ";
@@ -66,17 +66,34 @@ class __TwigTemplate_a4ac73a03da5b80a49927259b0e6df72 extends Template
         yield from $this->load("components/navbar.twig", 13)->unwrap()->yield($context);
         // line 14
         yield "
+<!-- Flash-уведомления -->
+";
+        // line 16
+        if ((($tmp = ($context["flash"] ?? null)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+            // line 17
+            yield "    <div class=\"flash-message flash-";
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, ($context["flash"] ?? null), "type", [], "any", false, false, false, 17), "html", null, true);
+            yield "\">
+        ";
+            // line 18
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, ($context["flash"] ?? null), "message", [], "any", false, false, false, 18));
+            yield "
+    </div>
+";
+        }
+        // line 21
+        yield "
 <main>
     ";
-        // line 16
+        // line 23
         yield from $this->unwrap()->yieldBlock('content', $context, $blocks);
-        // line 17
+        // line 24
         yield "</main>
 
 ";
-        // line 19
-        yield from $this->load("components/footer.twig", 19)->unwrap()->yield($context);
-        // line 20
+        // line 26
+        yield from $this->load("components/footer.twig", 26)->unwrap()->yield($context);
+        // line 27
         yield "
 <!-- Login Modal -->
 <div id=\"loginModal\" class=\"modal-overlay\">
@@ -108,10 +125,23 @@ class __TwigTemplate_a4ac73a03da5b80a49927259b0e6df72 extends Template
 
 <script src=\"/js/app.js\"></script>
 ";
-        // line 50
+        // line 57
         yield from $this->unwrap()->yieldBlock('extra_js', $context, $blocks);
-        // line 51
-        yield "</body>
+        // line 58
+        yield "
+<!-- Скрипт для скрытия flash-уведомлений -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const flashMsg = document.querySelector('.flash-message');
+    if (flashMsg) {
+        setTimeout(() => {
+            flashMsg.style.opacity = '0';
+            setTimeout(() => flashMsg.remove(), 500);
+        }, 3000); // Через 3 секунды исчезает
+    }
+});
+</script>
+</body>
 </html>";
         yield from [];
     }
@@ -137,7 +167,7 @@ class __TwigTemplate_a4ac73a03da5b80a49927259b0e6df72 extends Template
         yield from [];
     }
 
-    // line 16
+    // line 23
     /**
      * @return iterable<null|scalar|\Stringable>
      */
@@ -147,7 +177,7 @@ class __TwigTemplate_a4ac73a03da5b80a49927259b0e6df72 extends Template
         yield from [];
     }
 
-    // line 50
+    // line 57
     /**
      * @return iterable<null|scalar|\Stringable>
      */
@@ -178,7 +208,7 @@ class __TwigTemplate_a4ac73a03da5b80a49927259b0e6df72 extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  151 => 50,  141 => 16,  131 => 9,  120 => 6,  114 => 51,  112 => 50,  80 => 20,  78 => 19,  74 => 17,  72 => 16,  68 => 14,  66 => 13,  59 => 9,  53 => 6,  46 => 1,);
+        return array (  181 => 57,  171 => 23,  161 => 9,  150 => 6,  131 => 58,  129 => 57,  97 => 27,  95 => 26,  91 => 24,  89 => 23,  85 => 21,  79 => 18,  74 => 17,  72 => 16,  68 => 14,  66 => 13,  61 => 10,  59 => 9,  53 => 6,  46 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -187,15 +217,22 @@ class __TwigTemplate_a4ac73a03da5b80a49927259b0e6df72 extends Template
 <html lang=\"ru\">
 <head>
     <meta charset=\"UTF-8\">
-    <meta name=\"torrent\" content=\"width=device-width, initial-scale=1.0\">
+    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
     <title>{% block title %}ITech{% endblock %}</title>
     <link rel=\"stylesheet\" href=\"/css/style.css\">
     <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css\">
-    {% block extra_css %}{% endblock %}  <!-- ← ЭТО ДОБАВЬ -->
+    {% block extra_css %}{% endblock %}
 </head>
 <body>
 
 {% include 'components/navbar.twig' %}
+
+<!-- Flash-уведомления -->
+{% if flash %}
+    <div class=\"flash-message flash-{{ flash.type }}\">
+        {{ flash.message|e }}
+    </div>
+{% endif %}
 
 <main>
     {% block content %}{% endblock %}
@@ -233,6 +270,19 @@ class __TwigTemplate_a4ac73a03da5b80a49927259b0e6df72 extends Template
 
 <script src=\"/js/app.js\"></script>
 {% block extra_js %}{% endblock %}
+
+<!-- Скрипт для скрытия flash-уведомлений -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const flashMsg = document.querySelector('.flash-message');
+    if (flashMsg) {
+        setTimeout(() => {
+            flashMsg.style.opacity = '0';
+            setTimeout(() => flashMsg.remove(), 500);
+        }, 3000); // Через 3 секунды исчезает
+    }
+});
+</script>
 </body>
 </html>", "layouts/base.twig", "D:\\OSPanel\\domains\\slimdiplom\\templates\\layouts\\base.twig");
     }

@@ -522,3 +522,61 @@ h1 {
     outline: none;
     box-shadow: none;
 }
+
+/* === Flash Messages === */
+.flash-message {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    border-radius: 6px;
+    color: white;
+    font-weight: bold;
+    z-index: 9999;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    min-width: 300px;
+    text-align: center;
+}
+
+.flash-success {
+    background-color: #28a745;
+}
+
+.flash-error {
+    background-color: #dc3545;
+}
+
+.flash-warning {
+    background-color: #ffc107;
+    color: black;
+}
+
+.flash-info {
+    background-color: #17a2b8;
+}
+
+/* Анимация появления */
+.flash-message {
+    animation: fadeInRight 0.5s, fadeOut 3s 2.5s forwards;
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+        display: none;
+    }
+}

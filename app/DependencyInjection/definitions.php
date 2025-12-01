@@ -14,6 +14,7 @@ use App\Controllers\Admin\Models\WriteoffModel; // для writeoff
 use App\Controllers\Admin\Models\RequestsModel; // для /admin/requests
 use App\Controllers\User\Models\RequestUserModel; // для /requests (мои заявки)
 use App\Controllers\Application\Models\CartridgeRequestModel; // для /sending/cartridge
+use App\Common\Services\FlashService; // ← Подключаем FlashService
 use App\Twig\Extensions\TwigExtensions; // ← Подключаем расширение Twig
 
 return [
@@ -47,6 +48,9 @@ return [
         // === Подключаем пользовательские фильтры ===
         $twig->getEnvironment()->addExtension(new TwigExtensions());
 
+        // === Добавляем Flash-сообщения в шаблоны ===
+        $twig->getEnvironment()->addGlobal('flash', $_SESSION['flash_message'] ?? null);
+
         $twig->getEnvironment()->addGlobal('session', $_SESSION ?? []);
 
         return $twig;
@@ -63,4 +67,5 @@ return [
     RequestsModel::class => \DI\autowire(), // для /admin/requests
     RequestUserModel::class => \DI\autowire(), // для /requests
     CartridgeRequestModel::class => \DI\autowire(), // для /sending/cartridge
+    FlashService::class => \DI\autowire(), // ← Регистрируем FlashService
 ];

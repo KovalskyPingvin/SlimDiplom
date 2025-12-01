@@ -6,10 +6,14 @@ namespace App\Controllers\Application\Actions;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Controllers\Application\Models\CartridgeRequestModel;
+use App\Common\Services\FlashService;
 
 class SubmitAction
 {
-    public function __construct(private CartridgeRequestModel $model) {}
+    public function __construct(
+        private CartridgeRequestModel $model,
+        private FlashService $flash
+    ) {}
 
     public function __invoke(Request $request, Response $response): Response
     {
@@ -17,25 +21,22 @@ class SubmitAction
         $userId = $_SESSION['id_user'] ?? 0;
 
         if ($userId <= 0) {
-            error_log("Пользователь не авторизован");
-            return $response->withJson(['success' => false, 'message' => 'Ошибка: пользователь не авторизован.'], 401);
+            $this->flash->setMessage('Ошибка: пользователь не авторизован.', 'error');
+            return $response->withHeader('Location', '/sending/cartridge')->withStatus(302);
         }
-
-        error_log("Отправка заявки от пользователя ID: " . $userId);
-        error_log("Данные: " . json_encode($data));
 
         try {
             $result = $this->model->createRequest($data, $userId);
-            error_log("Результат запроса: " . ($result ? 'true' : 'false'));
 
             if ($result) {
-                return $response->withJson(['success' => true, 'message' => 'Заявка успешно отправлена!']);
+                $this->flash->setMessage('Заявка успешно отправлена!', 'success');
             } else {
-                return $response->withJson(['success' => false, 'message' => 'Ошибка отправки заявки.'], 500);
+                $this->flash->setMessage('Ошибка отправки заявки.', 'error');
             }
         } catch (\Exception $e) {
-            error_log("Ошибка в SubmitAction: " . $e->getMessage());
-            return $response->withJson(['success' => false, 'message' => 'Ошибка сервера: ' . $e->getMessage()], 500);
+            $this->flash->setMessage('Ошибка сервера: ' . $e->getMessage(), 'error');
         }
+
+        return $response->withHeader('Location', '/sending/cartridge')->withStatus(302);
     }
 }

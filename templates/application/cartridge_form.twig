@@ -10,7 +10,7 @@
 <div class="container-form">
     <h1>Заполните форму заявки</h1>
 
-    <form id="templateForm" method="post">
+    <form id="templateForm" method="post" action="/sending/submit">
         <div>
             <label for="departmentName">Название отдела:</label>
             <input type="text" id="departmentName" name="departmentName" required>
@@ -50,50 +50,6 @@
 </div>
 
 <div id="webOutput"></div>
-
-<div id="modal-sending" class="modal-sending">
-  <div class="modal-content">
-    <p id="modal-sending-message"></p>
-    <button onclick="closeModalSending()">Закрыть</button>
-  </div>
-</div>
-
-<script>
-function closeModalSending() {
-    document.getElementById('modal-sending').classList.remove('active');
-}
-
-document.getElementById('templateForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    const formData = new FormData(this);
-
-    fetch('/sending/submit', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => {
-        console.log('Статус ответа:', response.status);
-        if (!response.ok) {
-            throw new Error('Сетевая ошибка: ' + response.status);
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log('Ответ от сервера:', data); // ← Для отладки
-        document.getElementById('modal-sending-message').textContent = data.message;
-        document.getElementById('modal-sending').classList.add('active');
-        if (data.success) {
-            this.reset();
-        }
-    })
-    .catch(error => {
-        console.error('Ошибка JS:', error); // ← Для отладки
-        document.getElementById('modal-sending-message').textContent = 'Ошибка отправки заявки: ' + error.message;
-        document.getElementById('modal-sending').classList.add('active');
-    });
-});
-</script>
 
 {% include 'components/notification.twig' %}
 {% endblock %}
