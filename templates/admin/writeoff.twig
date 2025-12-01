@@ -1,0 +1,264 @@
+{% extends 'layouts/base.twig' %}
+
+{% block title %}Списание оборудования и картриджей{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="/css/admin/writeoff.css">
+{% endblock %}
+
+{% block content %}
+<div class="writeoff-page">
+    <div class="content-wrapper">
+        <h1 style="text-align:center; margin-top:20px;">Списание оборудования и картриджей</h1>
+
+        <div class="tables-container">
+
+            <!-- Левая таблица - Склад -->
+            <div class="table-wrapper" id="stock-wrapper">
+                <h2>Склад</h2>
+                <input type="text" class="search-input" id="searchStock" placeholder="Поиск по складу...">
+
+                <table id="stockTable">
+                    <thead>
+                        <tr>
+                            <th>Тип</th>
+                            <th>Название</th>
+                            <th>Инвентарный номер</th>
+                            <th>Количество</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in cartridges_stock %}
+                        <tr data-id="{{ item.id }}"
+                            data-type="cartridge"
+                            data-name="{{ item.name|e }}"
+                            data-inv="{{ item.inventory_number|e }}"
+                            data-qty="{{ item.quantity }}">
+                            <td>Картридж</td>
+                            <td>{{ item.name|e }}</td>
+                            <td>{{ item.inventory_number|e }}</td>
+                            <td>{{ item.quantity }}</td>
+                        </tr>
+                    {% endfor %}
+
+                    {% for item in tech_stock %}
+                        <tr data-id="{{ item.id }}"
+                            data-type="tech"
+                            data-name="{{ item.name|e }}"
+                            data-inv="{{ item.inventory_number|e }}"
+                            data-qty="{{ item.quantity }}">
+                            <td>Техника</td>
+                            <td>{{ item.name|e }}</td>
+                            <td>{{ item.inventory_number|e }}</td>
+                            <td>{{ item.quantity }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Кнопки стрелок -->
+            <div class="buttons-middle">
+                <button id="btnToWriteoff" class="btn-arrow" disabled title="Переместить в списание">&#8594;</button>
+                <button id="btnToStock" class="btn-arrow" disabled title="Вернуть на склад">&#8592;</button>
+            </div>
+
+            <!-- Правая таблица - Списание -->
+            <div class="table-wrapper" id="writeoff-wrapper">
+                <div class="header-writeoff" style="gap:10px;">
+                    <h2>Списание</h2>
+                    <div>
+                        <button class="btn-export" onclick="openExportModal()" style="margin-right:10px;">Экспорт</button>
+                        <button id="btnDeleteAll" class="btn-delete-all">Списать</button>
+                    </div>
+                </div>
+                <input type="text" class="search-input" id="searchWriteoff" placeholder="Поиск по списанию...">
+
+                <table id="writeoffTable">
+                    <thead>
+                        <tr>
+                            <th>Тип</th>
+                            <th>Название</th>
+                            <th>Инвентарный номер</th>
+                            <th>Количество</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in cartridges_writeoff %}
+                        <tr data-id="{{ item.id }}"
+                            data-type="cartridge"
+                            data-name="{{ item.name|e }}"
+                            data-inv="{{ item.inventory_number|e }}"
+                            data-qty="{{ item.quantity }}">
+                            <td>Картридж</td>
+                            <td>{{ item.name|e }}</td>
+                            <td>{{ item.inventory_number|e }}</td>
+                            <td>{{ item.quantity }}</td>
+                        </tr>
+                    {% endfor %}
+
+                    {% for item in tech_writeoff %}
+                        <tr data-id="{{ item.id }}"
+                            data-type="tech"
+                            data-name="{{ item.name|e }}"
+                            data-inv="{{ item.inventory_number|e }}"
+                            data-qty="{{ item.quantity }}">
+                            <td>Техника</td>
+                            <td>{{ item.name|e }}</td>
+                            <td>{{ item.inventory_number|e }}</td>
+                            <td>{{ item.quantity }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Модалка подтверждения удаления -->
+        <div class="modal-overlay" id="modalConfirmDelete">
+            <div class="modal-container-writeoff">
+                <p>Вы действительно хотите удалить все элементы списания? При удалении они исчезнут из списания и склада!</p>
+                <div class="modal-buttons">
+                    <form method="POST" id="formDeleteAll" style="display:inline;">
+                        <input type="hidden" name="action" value="delete_all">
+                        <button type="submit" class="modal-button confirm">Да</button>
+                    </form>
+                    <button class="modal-button cancel" onclick="closeModalConfirm()">Нет</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Модальное окно экспорта -->
+        <div class="modal-overlay" id="modalExport">
+            <div class="modal-container">
+                <h3>Выберите формат экспорта</h3>
+                <div class="modal-buttons">
+                    <form method="POST" action="/admin/writeoff/export" style="display:inline;">
+                        <input type="hidden" name="format" value="excel">
+                        <button type="submit" class="modal-button confirm" style="background-color: #28a745;">Excel</button>
+                    </form>
+                    <form method="POST" action="/admin/writeoff/export" style="display:inline;">
+                        <input type="hidden" name="format" value="word">
+                        <button type="submit" class="modal-button confirm" style="background-color: #007bff;">Word</button>
+                    </form>
+                    <button type="button" class="modal-button cancel" onclick="closeExportModal()">Отмена</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Выбор строки
+    function setupRowSelection(tableId, btnId) {
+        const table = document.getElementById(tableId);
+        const btn = document.getElementById(btnId);
+        let selectedRow = null;
+
+        table.querySelectorAll('tbody tr').forEach(row => {
+            row.addEventListener('click', () => {
+                if (selectedRow) selectedRow.classList.remove('selected');
+                if (selectedRow === row) {
+                    // Снять выбор
+                    selectedRow = null;
+                    btn.disabled = true;
+                } else {
+                    selectedRow = row;
+                    row.classList.add('selected');
+                    btn.disabled = false;
+                }
+            });
+        });
+
+        return () => selectedRow;
+    }
+
+    // Фильтрация таблиц
+    function setupSearch(inputId, tableId) {
+        const input = document.getElementById(inputId);
+        const table = document.getElementById(tableId);
+
+        input.addEventListener('input', () => {
+            const filter = input.value.toLowerCase();
+            table.querySelectorAll('tbody tr').forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(filter) ? '' : 'none';
+            });
+        });
+    }
+
+    const getSelectedStockRow = setupRowSelection('stockTable', 'btnToWriteoff');
+    const getSelectedWriteoffRow = setupRowSelection('writeoffTable', 'btnToStock');
+
+    setupSearch('searchStock', 'stockTable');
+    setupSearch('searchWriteoff', 'writeoffTable');
+
+    const btnToWriteoff = document.getElementById('btnToWriteoff');
+    const btnToStock = document.getElementById('btnToStock');
+
+    btnToWriteoff.addEventListener('click', () => {
+        const selected = getSelectedStockRow();
+        if (!selected) return;
+
+        const data = {
+            action: 'move_to_writeoff',
+            type: selected.getAttribute('data-type'),
+            id: parseInt(selected.getAttribute('data-id'))
+        };
+
+        sendPost(data);
+    });
+
+    btnToStock.addEventListener('click', () => {
+        const selected = getSelectedWriteoffRow();
+        if (!selected) return;
+
+        const data = {
+            action: 'move_to_stock',
+            type: selected.getAttribute('data-type'),
+            id: parseInt(selected.getAttribute('data-id'))
+        };
+
+        sendPost(data);
+    });
+
+    // Кнопка удалить все - открывает модалку
+    document.getElementById('btnDeleteAll').addEventListener('click', () => {
+        document.getElementById('modalConfirmDelete').classList.add('active');
+    });
+
+    function closeModalConfirm() {
+        document.getElementById('modalConfirmDelete').classList.remove('active');
+    }
+
+    // Функция отправки POST-запроса с данными формы
+    function sendPost(data) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.style.display = 'none';
+
+        for (const key in data) {
+            if (data.hasOwnProperty(key)) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = data[key];
+                form.appendChild(input);
+            }
+        }
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+    function openExportModal() {
+        document.getElementById('modalExport').classList.add('active');
+    }
+
+    function closeExportModal() {
+        document.getElementById('modalExport').classList.remove('active');
+    }
+</script>
+
+{% include 'components/notification.twig' %}
+{% endblock %}

@@ -59,9 +59,9 @@ class __TwigTemplate_b4d14c6b1a3ca0eeb970bd4d71ce59a6 extends Template
             yield "</span>
                 </div>
 
-                <a href=\"/notification/notification.php\" id=\"notificationButton\" class=\"sidebar-btn\">
+                <button type=\"button\" id=\"notificationButton\" class=\"sidebar-btn\">
                     <i class=\"fas fa-bell\"></i> <span class=\"link-text\">Уведомления</span>
-                </a>
+                </button>
 
                 ";
             // line 20
@@ -154,9 +154,9 @@ class __TwigTemplate_b4d14c6b1a3ca0eeb970bd4d71ce59a6 extends Template
                     <i class=\"fas fa-user\"></i> <span class=\"link-text\">{{ session.username|e }}</span>
                 </div>
 
-                <a href=\"/notification/notification.php\" id=\"notificationButton\" class=\"sidebar-btn\">
+                <button type=\"button\" id=\"notificationButton\" class=\"sidebar-btn\">
                     <i class=\"fas fa-bell\"></i> <span class=\"link-text\">Уведомления</span>
-                </a>
+                </button>
 
                 {% if session.id_user >= 0 %}
                     <a href=\"/sending\" class=\"sidebar-btn\">

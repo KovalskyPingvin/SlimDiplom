@@ -95,11 +95,22 @@ class __TwigTemplate_53615c0637e145e299bf9fa4beef3cce extends Template
     </div>
 </div>
 
+<!-- Модальное окно уведомлений -->
+<div id=\"notificationModal\" class=\"modal-overlay\">
+    <div class=\"modal-container\">
+        <button class=\"modal-close\" id=\"closeNotificationModal\">&times;</button>
+        <h1 class=\"modal-title\">Уведомления</h1>
+        <div id=\"notificationContent\">
+            <p>Пока нет уведомлений.</p>
+        </div>
+    </div>
+</div>
+
 <script src=\"/js/app.js\"></script>
 ";
-        // line 39
+        // line 50
         yield from $this->unwrap()->yieldBlock('extra_js', $context, $blocks);
-        // line 40
+        // line 51
         yield "</body>
 </html>";
         yield from [];
@@ -136,7 +147,7 @@ class __TwigTemplate_53615c0637e145e299bf9fa4beef3cce extends Template
         yield from [];
     }
 
-    // line 39
+    // line 50
     /**
      * @return iterable<null|scalar|\Stringable>
      */
@@ -167,7 +178,7 @@ class __TwigTemplate_53615c0637e145e299bf9fa4beef3cce extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  140 => 39,  130 => 16,  120 => 9,  109 => 6,  103 => 40,  101 => 39,  80 => 20,  78 => 19,  74 => 17,  72 => 16,  68 => 14,  66 => 13,  59 => 9,  53 => 6,  46 => 1,);
+        return array (  151 => 50,  141 => 16,  131 => 9,  120 => 6,  114 => 51,  112 => 50,  80 => 20,  78 => 19,  74 => 17,  72 => 16,  68 => 14,  66 => 13,  59 => 9,  53 => 6,  46 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -206,6 +217,17 @@ class __TwigTemplate_53615c0637e145e299bf9fa4beef3cce extends Template
             <div id=\"loginError\" class=\"modal-error\"></div>
             <button type=\"submit\" class=\"modal-submit\">Войти</button>
         </form>
+    </div>
+</div>
+
+<!-- Модальное окно уведомлений -->
+<div id=\"notificationModal\" class=\"modal-overlay\">
+    <div class=\"modal-container\">
+        <button class=\"modal-close\" id=\"closeNotificationModal\">&times;</button>
+        <h1 class=\"modal-title\">Уведомления</h1>
+        <div id=\"notificationContent\">
+            <p>Пока нет уведомлений.</p>
+        </div>
     </div>
 </div>
 

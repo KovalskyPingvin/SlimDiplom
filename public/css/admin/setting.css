@@ -1,0 +1,82 @@
+/* === Стили только для страницы настроек === */
+
+.setting-page .content-wrapper {
+    padding: 40px 20px 20px 100px;
+    background-color: #f4f4f4;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+.setting-page .page-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    color: #002b5e;
+    margin-bottom: 30px;
+}
+
+.setting-page .alert {
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    color: #155724;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    text-align: center;
+}
+
+.setting-page .settings-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.setting-page .form-group {
+    margin-bottom: 20px;
+}
+
+.setting-page .form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+    font-size: 16px;
+}
+
+.setting-page .form-input {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+.setting-page .form-input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.setting-page .form-submit {
+    padding: 10px 20px;
+    background-color: #002b5e;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.setting-page .form-submit:hover {
+    background-color: #001f4a;
+}
+
+.setting-page .form-submit:active {
+    transform: scale(0.98);
+}

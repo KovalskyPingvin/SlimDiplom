@@ -1,0 +1,277 @@
+/* === Стили только для страницы "Мои заявки" === */
+
+.requests-user-page {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.requests-user-page h1 {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #002b5e;
+}
+
+.requests-user-page .request-filter {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+    padding: 0 20px;
+}
+
+.requests-user-page .request-filter label {
+    font-size: 14px;
+    color: #333;
+}
+
+.requests-user-page .request-filter input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+/* === ФИКСИРОВАННАЯ ТАБЛИЦА === */
+.requests-user-page .table-wrapper {
+    flex: 1;
+    padding: 0 20px;
+    margin-bottom: 20px;
+    overflow-x: hidden; /* ← Убираем скролл */
+}
+
+.requests-user-page .table-requests-user {
+    width: 100%;
+    max-width: 1200px; /* ← ФИКСИРОВАННАЯ ШИРИНА */
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    margin: 0 auto;
+    font-size: 14px;
+    table-layout: fixed; /* ← Фиксированная ширина колонок */
+}
+
+.requests-user-page .table-requests-user th,
+.requests-user-page .table-requests-user td {
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    text-align: left;
+    vertical-align: top;
+    /* Фиксированные ширины колонок */
+    width: 100px; /* ← Установи ширину каждой колонки */
+    min-width: 100px;
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; /* ← Не переносить слова */
+}
+
+/* === Специфические ширины для колонок === */
+.requests-user-page .table-requests-user th:nth-child(1), /* Тип */
+.requests-user-page .table-requests-user td:nth-child(1) {
+    width: 60px;
+    min-width: 60px;
+    max-width: 60px;
+}
+
+.requests-user-page .table-requests-user th:nth-child(2), /* Отдел */
+.requests-user-page .table-requests-user td:nth-child(2) {
+    width: 120px;
+    min-width: 120px;
+    max-width: 120px;
+}
+
+.requests-user-page .table-requests-user th:nth-child(3), /* Начальник */
+.requests-user-page .table-requests-user td:nth-child(3) {
+    width: 150px;
+    min-width: 150px;
+    max-width: 150px;
+}
+
+.requests-user-page .table-requests-user th:nth-child(4), /* Телефон */
+.requests-user-page .table-requests-user td:nth-child(4) {
+    width: 100px;
+    min-width: 100px;
+    max-width: 100px;
+}
+
+.requests-user-page .table-requests-user th:nth-child(5), /* Инв. номер */
+.requests-user-page .table-requests-user td:nth-child(5) {
+    width: 100px;
+    min-width: 100px;
+    max-width: 100px;
+}
+
+.requests-user-page .table-requests-user th:nth-child(6), /* Устройство */
+.requests-user-page .table-requests-user td:nth-child(6) {
+    width: 140px;
+    min-width: 140px;
+    max-width: 140px;
+}
+
+.requests-user-page .table-requests-user th:nth-child(7), /* Корпус */
+.requests-user-page .table-requests-user td:nth-child(7) {
+    width: 70px;
+    min-width: 70px;
+    max-width: 70px;
+}
+
+.requests-user-page .table-requests-user th:nth-child(8), /* Кабинет */
+.requests-user-page .table-requests-user td:nth-child(8) {
+    width: 70px;
+    min-width: 70px;
+    max-width: 70px;
+}
+
+.requests-user-page .table-requests-user th:nth-child(9), /* Причина */
+.requests-user-page .table-requests-user td:nth-child(9) {
+    width: 180px;
+    min-width: 180px;
+    max-width: 180px;
+}
+
+.requests-user-page .table-requests-user th:nth-child(10), /* Дата */
+.requests-user-page .table-requests-user td:nth-child(10) {
+    width: 120px;
+    min-width: 120px;
+    max-width: 120px;
+}
+
+.requests-user-page .table-requests-user th:nth-child(11), /* Статус */
+.requests-user-page .table-requests-user td:nth-child(11) {
+    width: 100px;
+    min-width: 100px;
+    max-width: 100px;
+}
+
+.requests-user-page .table-requests-user th:nth-child(12), /* Действия */
+.requests-user-page .table-requests-user td:nth-child(12) {
+    width: 100px;
+    min-width: 100px;
+    max-width: 100px;
+}
+
+/* === Заголовки === */
+.requests-user-page .table-requests-user thead th {
+    background-color: #002b5e;
+    color: white;
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+/* === Строки === */
+.requests-user-page .table-requests-user tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.requests-user-page .table-requests-user tbody tr:hover {
+    background-color: #eef;
+}
+
+/* === Статусы === */
+.requests-user-page .status-done {
+    color: green;
+    font-weight: bold;
+}
+
+.requests-user-page .status-pending {
+    color: orange;
+    font-weight: bold;
+}
+
+/* === Кнопки === */
+.requests-user-page .btn-print {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    background-color: #007bff;
+    color: white;
+}
+
+.requests-user-page .btn-print:hover {
+    background-color: #0056b3;
+}
+
+/* === Пагинация === */
+.requests-user-page .pagination {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: auto;
+    padding: 20px 0 40px 0;
+    list-style: none;
+}
+
+.requests-user-page .pagination a {
+    display: inline-block;
+    padding: 10px 16px;
+    margin: 0 2px;
+    text-decoration: none;
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    min-width: 40px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.requests-user-page .pagination a:hover {
+    background-color: #e9ecef;
+    border-color: #adb5bd;
+}
+
+.requests-user-page .pagination a.active {
+    background-color: #002b5e;
+    color: white;
+    border-color: #002b5e;
+    font-weight: bold;
+}
+
+.requests-user-page .pagination a.active:hover {
+    background-color: #001f4a;
+}
+
+/* === Пустая таблица === */
+.requests-user-page .p-requests-empty {
+    text-align: center;
+    font-size: 18px;
+    color: #666;
+    margin-top: 30px;
+}
+
+/* === Адаптивность === */
+@media (max-width: 768px) {
+    .requests-user-page .request-filter {
+        justify-content: center;
+    }
+
+    .requests-user-page .table-wrapper {
+        padding: 0 10px;
+    }
+
+    .requests-user-page .table-requests-user {
+        font-size: 12px;
+    }
+
+    .requests-user-page .table-requests-user th,
+    .requests-user-page .table-requests-user td {
+        padding: 6px 8px;
+        width: 80px;
+        min-width: 80px;
+        max-width: 80px;
+    }
+
+    .requests-user-page .pagination {
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+
+    .requests-user-page .pagination a {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+}

@@ -1,0 +1,137 @@
+{% extends 'layouts/base.twig' %}
+
+{% block title %}Все заявки{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="/css/admin/requests_admin.css">
+{% endblock %}
+
+{% block content %}
+<div class="requests-admin-page">
+    <div class="content-wrapper">
+        <h1 class="h1-requests-admin">Все заявки</h1>
+
+        {% if requests|length > 0 %}
+            <table class="table-requests-admin">
+                <thead>
+                    <tr>
+                        <th>Тип</th>
+                        <th>Отдел</th>
+                        <th>Начальник отдела</th>
+                        <th>Телефон</th>
+                        <th>Инв. номер</th>
+                        <th>Устройство</th>
+                        <th>Корпус</th>
+                        <th>Кабинет</th>
+                        <th>Причина</th>
+                        <th>Дата</th>
+                        <th>Статус</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for req in requests %}
+                        <tr data-id="{{ req.id_request }}" data-type="{{ req.request_type }}">
+                            <td>{{ req.request_type }}</td>
+                            <td>{{ req.department_name|e }}</td>
+                            <td>{{ req.head_full_name|e }}</td>
+                            <td>{{ req.phone|e }}</td>
+                            <td>{{ req.inventory_number|e }}</td>
+                            <td>{{ req.device_name|e }}</td>
+                            <td>{{ req.building_number|e }}</td>
+                            <td>{{ req.room_number|e }}</td>
+                            <td>{{ req.reason|e }}</td>
+                            <td>{{ req.submission_date|date('d.m.Y H:i') }}</td>
+                            <td class="status-cell {{ req.status == 'Завершен' ? 'status-done' : 'status-pending' }}">
+                                {{ req.status }}
+                            </td>
+                            <td>
+                                <button class="btn-print"
+                                    data-department="{{ req.department_name|e }}"
+                                    data-chief="{{ req.head_full_name|e }}"
+                                    data-phone="{{ req.phone|e }}"
+                                    data-device="{{ req.device_name|e }}"
+                                    data-inventory="{{ req.inventory_number|e }}"
+                                    data-building="{{ req.building_number|e }}"
+                                    data-room="{{ req.room_number|e }}"
+                                    data-reason="{{ req.reason|e }}"
+                                    data-recipient="М.Г. Беликову">
+                                    Печать
+                                </button>
+                                {% if req.status != 'Завершен' %}
+                                    <button class="btn-complete">Завершить</button>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <!-- Пагинация -->
+            <div class="pagination">
+                {% for i in 1..total_pages %}
+                    <a href="?page={{ i }}" class="{{ i == current_page ? 'active' : '' }}">{{ i }}</a>
+                {% endfor %}
+            </div>
+
+        {% else %}
+            <p class="no-requests">Нет заявок.</p>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    // Завершение заявки
+    document.querySelectorAll('.btn-complete').forEach(button => {
+        button.addEventListener('click', function () {
+            const row = this.closest('tr');
+            const id = row.dataset.id;
+            const type = row.dataset.type;
+
+            fetch('/admin/requests/complete', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `id=${encodeURIComponent(id)}&type=${encodeURIComponent(type)}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const statusCell = row.querySelector('.status-cell');
+                    statusCell.textContent = 'Завершен';
+                    statusCell.className = 'status-cell status-done';
+                    this.remove(); // Удаляем кнопку "Завершить"
+                } else {
+                    alert('Ошибка: ' + (data.error || 'Неизвестная ошибка'));
+                }
+            })
+            .catch(err => {
+                console.error('Ошибка:', err);
+                alert('Ошибка сети');
+            });
+        });
+    });
+
+    // Печать (заглушка)
+    document.querySelectorAll('.btn-print').forEach(button => {
+        button.addEventListener('click', function () {
+            const data = {
+                department: this.dataset.department,
+                chief: this.dataset.chief,
+                phone: this.dataset.phone,
+                device: this.dataset.device,
+                inventory: this.dataset.inventory,
+                building: this.dataset.building,
+                room: this.dataset.room,
+                reason: this.dataset.reason,
+                recipient: this.dataset.recipient,
+            };
+            // Здесь можно вызвать функцию генерации Word-документа
+            alert('Функция печати заглушена. Данные: ' + JSON.stringify(data));
+        });
+    });
+</script>
+
+{% include 'components/notification.twig' %}
+{% endblock %}

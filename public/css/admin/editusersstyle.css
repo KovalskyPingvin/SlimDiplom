@@ -1,0 +1,210 @@
+/* === Стили только для страницы управления пользователями === */
+
+.editusers-page .content-wrapper {
+    padding: 40px 20px 20px 100px;
+    background-color: #f4f4f4;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+.editusers-page .page-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    color: #002b5e;
+    margin-bottom: 30px;
+}
+
+.editusers-page .button-wrapper {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.editusers-page .button-wrapper button {
+    padding: 10px 20px;
+    background-color: #002b5e;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.editusers-page .table-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.editusers-page .user-table {
+    width: 80%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.editusers-page .user-table th,
+.editusers-page .user-table td {
+    border: 1px solid #ccc;
+    padding: 10px 15px;
+    text-align: left;
+}
+
+.editusers-page .user-table th {
+    background-color: #002b5e;
+    color: white;
+    font-weight: bold;
+}
+
+.editusers-page .user-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.editusers-page .user-table tr:hover {
+    background-color: #eef;
+}
+
+.editusers-page .user-table button {
+    margin: 2px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+}
+
+.editusers-page .user-table button:hover {
+    opacity: 0.9;
+}
+
+.editusers-page .user-table .danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+.editusers-page .modal-overlay {
+    display: none;
+    position: fixed;
+    z-index: 2000; /* Выше сайдбара */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+}
+
+.editusers-page .modal {
+    background-color: #fff;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    padding: 30px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 1001;
+}
+
+.editusers-page .modal h2 {
+    margin-top: 0;
+    font-size: 22px;
+    color: #002b5e;
+    text-align: center;
+}
+
+.editusers-page .modal label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+.editusers-page .modal input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.editusers-page .modal-buttons {
+    margin-top: 25px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.editusers-page .modal-buttons button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.editusers-page .modal-buttons .confirm {
+    background-color: #007bff;
+    color: white;
+}
+
+.editusers-page .modal-buttons .cancel {
+    background-color: #ccc;
+    color: #333;
+}
+
+.editusers-page .modal-buttons .danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+.editusers-page body.modal-open {
+    overflow: hidden;
+    padding-right: 17px; 
+}
+
+.editusers-page .modal-overlay.active {
+    display: flex;
+}
+
+.editusers-page .modal-close {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #333;
+}
+
+.editusers-page .modal-title {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+/* Стиль для основной кнопки Экспорт */
+.editusers-page .export-btn {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.editusers-page .export-btn:hover {
+    background-color: #218838;
+}
+
+/* Стилизация формы-кнопки внутри модального окна */
+.editusers-page .modal-buttons form {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+.editusers-page .modal-buttons .confirm {
+    background-color: #007bff;
+}
+
+.editusers-page .modal-buttons .confirm:hover {
+    background-color: #0056b3;
+}

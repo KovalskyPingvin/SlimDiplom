@@ -10,6 +10,10 @@ return function ($app) {
     $app->post('/login', \App\Controllers\User\Actions\LoginAction::class);
     $app->get('/logout', \App\Controllers\User\Actions\LogoutAction::class);
 
+    // === Мои заявки (только для авторизованных пользователей) ===
+    $app->get('/requests', \App\Controllers\User\Actions\RequestsUserAction::class)
+        ->add(\App\Middleware\AuthMiddleware::class);
+
     // === Заявки пользователей ===
     $app->group('/sending', function (RouteCollectorProxy $group) {
         $group->get('', \App\Controllers\Application\Actions\IndexAction::class)->setName('applications.index');
@@ -21,7 +25,7 @@ return function ($app) {
         $group->get('/event', \App\Controllers\Application\Actions\EventFormAction::class)->setName('application.event');
         $group->get('/equipment', \App\Controllers\Application\Actions\EquipmentFormAction::class)->setName('application.equipment');
         $group->post('/submit', \App\Controllers\Application\Actions\SubmitAction::class)->setName('application.submit');
-    })->add(\App\Middleware\AuthMiddleware::class); // Требуется авторизация
+    })->add(\App\Middleware\AuthMiddleware::class);
 
     // === Админка (только для админов: id_user <= 2) ===
     $app->group('/admin', function (RouteCollectorProxy $group) {
@@ -33,12 +37,28 @@ return function ($app) {
         $group->post('/compatibility', \App\Controllers\Admin\Actions\CompatibilityAction::class);
         $group->get('/compatibility/export', \App\Controllers\Admin\Actions\CompatibilityExportAction::class);
 
-        // Остальные разделы — пока заглушки (перенаправляют на /admin)
-        // Позже заменишь на реальные экшены
-        $group->get('/requests', fn($req, $res) => $res->withHeader('Location', '/admin')->withStatus(302));
-        $group->get('/editusers', fn($req, $res) => $res->withHeader('Location', '/admin')->withStatus(302));
-        $group->get('/storage', fn($req, $res) => $res->withHeader('Location', '/admin')->withStatus(302));
-        $group->get('/writeoff', fn($req, $res) => $res->withHeader('Location', '/admin')->withStatus(302));
-        $group->get('/setting', fn($req, $res) => $res->withHeader('Location', '/admin')->withStatus(302));
-    })->add(\App\Middleware\AuthMiddleware::class); // Защита админки
+        // Управление пользователями (новое)
+        $group->get('/editusers', \App\Controllers\Admin\Actions\EditUsersAction::class);
+        $group->post('/editusers', \App\Controllers\Admin\Actions\EditUsersAction::class);
+        $group->post('/editusers/export', \App\Controllers\Admin\Actions\EditUsersExportAction::class);
+
+        // Настройки заявок (новое)
+        $group->get('/setting', \App\Controllers\Admin\Actions\SettingAction::class);
+        $group->post('/setting', \App\Controllers\Admin\Actions\SettingAction::class);
+
+        // Склад (новое)
+        $group->get('/storage', \App\Controllers\Admin\Actions\StorageAction::class);
+        $group->post('/storage', \App\Controllers\Admin\Actions\StorageAction::class);
+        $group->post('/storage/export', \App\Controllers\Admin\Actions\StorageExportAction::class);
+
+        // Списание (новое)
+        $group->get('/writeoff', \App\Controllers\Admin\Actions\WriteoffAction::class);
+        $group->post('/writeoff', \App\Controllers\Admin\Actions\WriteoffAction::class);
+        $group->post('/writeoff/export', \App\Controllers\Admin\Actions\WriteoffExportAction::class);
+
+        // Заявки пользователей (новое)
+        $group->get('/requests', \App\Controllers\Admin\Actions\RequestsAction::class);
+        $group->post('/requests', \App\Controllers\Admin\Actions\RequestsAction::class);
+        $group->post('/requests/export', \App\Controllers\Admin\Actions\RequestsExportAction::class);
+    })->add(\App\Middleware\AuthMiddleware::class);
 };

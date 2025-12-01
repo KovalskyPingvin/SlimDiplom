@@ -16,29 +16,36 @@ class CompatibilityAction
 
     public function __invoke(Request $request, Response $response): Response
     {
+        $queryParams = $request->getQueryParams();
+        $body = $request->getParsedBody();
+
         // === Удаление ===
-        if ($request->getMethod() === 'GET' && $request->getQueryParams()['delete'] ?? null) {
-            $printer = $request->getQueryParams()['delete'];
-            $this->model->deleteByPrinter($printer);
+        if ($request->getMethod() === 'GET' && isset($queryParams['delete'])) {
+            $printer = (string) $queryParams['delete'];
+            if ($printer !== '') {
+                $this->model->deleteByPrinter($printer);
+            }
             return $response->withHeader('Location', '/admin/compatibility')->withStatus(302);
         }
 
         // === Добавление ===
-        if ($request->getMethod() === 'POST' && ($request->getParsedBody()['add_compatibility'] ?? null)) {
-            $printer = trim($request->getParsedBody()['printer_name'] ?? '');
-            $cartridges = $request->getParsedBody()['cartridge_names'] ?? [];
-            if ($printer && $cartridges) {
+        if ($request->getMethod() === 'POST' && isset($body['add_compatibility'])) {
+            $printer = trim($body['printer_name'] ?? '');
+            $cartridges = $body['cartridge_names'] ?? [];
+            if ($printer !== '' && !empty($cartridges)) {
                 $this->model->add($printer, $cartridges);
             }
             return $response->withHeader('Location', '/admin/compatibility')->withStatus(302);
         }
 
         // === Редактирование ===
-        if ($request->getMethod() === 'POST' && ($request->getParsedBody()['edit_compatibility'] ?? null)) {
-            $oldPrinter = $request->getParsedBody()['old_printer_name'] ?? '';
-            $newPrinter = trim($request->getParsedBody()['new_printer_name'] ?? '');
-            $cartridges = $request->getParsedBody()['edit_cartridge_names'] ?? [];
-            $this->model->update($oldPrinter, $newPrinter, $cartridges);
+        if ($request->getMethod() === 'POST' && isset($body['edit_compatibility'])) {
+            $oldPrinter = $body['old_printer_name'] ?? '';
+            $newPrinter = trim($body['new_printer_name'] ?? '');
+            $cartridges = $body['edit_cartridge_names'] ?? [];
+            if ($oldPrinter !== '' || $newPrinter !== '') {
+                $this->model->update($oldPrinter, $newPrinter, $cartridges);
+            }
             return $response->withHeader('Location', '/admin/compatibility')->withStatus(302);
         }
 

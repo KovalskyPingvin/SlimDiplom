@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // === ЛОГИН МОДАЛКА ===
     const modal = document.getElementById('loginModal');
     const loginButton = document.getElementById('loginButton');
     const closeButton = document.getElementById('closeModal');
@@ -111,6 +112,33 @@ document.addEventListener('DOMContentLoaded', function() {
                 submitBtn.textContent = 'Войти';
                 submitBtn.disabled = false;
             });
+        });
+    }
+
+    // ======== УВЕДОМЛЕНИЯ (внутри того же DOMContentLoaded) ========
+
+    const notifBtn = document.getElementById('notificationButton');
+    const notifModal = document.getElementById('notificationModal');
+    const notifClose = document.getElementById('closeNotificationModal');
+
+    if (notifBtn && notifModal && notifClose) {
+        notifBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            notifModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        notifClose.addEventListener('click', function () {
+            notifModal.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+
+        // Закрытие по клику вне модального окна
+        notifModal.addEventListener('click', function (e) {
+            if (e.target === notifModal) {
+                notifModal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
         });
     }
 });

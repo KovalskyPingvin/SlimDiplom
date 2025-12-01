@@ -4,7 +4,6 @@ namespace App\Middleware;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
-use Slim\Psr7\Response as SlimResponse;
 
 class AuthMiddleware
 {
@@ -12,14 +11,15 @@ class AuthMiddleware
     {
         // Проверка авторизации
         if (!isset($_SESSION['id_user'])) {
-            $response = new SlimResponse();
+            // Создаём новый Response через фабрику или используем Slim\App
+            // Но в Slim 4 рекомендуется использовать фабрику или контейнер
+            $response = new \Nyholm\Psr7\Response(); // ← используем Nyholm
             return $response->withHeader('Location', '/login')->withStatus(302);
         }
 
         // Проверка роли (только админы: id_user <= 2)
         if ($_SESSION['id_user'] > 2) {
-            // Можно редирект на главную или на страницу "Доступ запрещён"
-            $response = new SlimResponse();
+            $response = new \Nyholm\Psr7\Response();
             return $response->withHeader('Location', '/')->withStatus(302);
         }
 

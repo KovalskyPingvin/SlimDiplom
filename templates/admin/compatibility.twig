@@ -7,112 +7,113 @@
 {% endblock %}
 
 {% block content %}
-<div class="content-wrapper">
-    <h1 class="h1-comp">Совместимость картриджей и принтеров</h1>
+<div class="compatibility-page">  <!-- ← Оборачиваем в div с классом -->
+    <div class="content-wrapper">
+        <h1 class="h1-comp">Совместимость картриджей и принтеров</h1>
 
-    <div class="center-button">
-        <button id="openModal" class="btn-add">Добавить совместимость</button>
-        <button id="openExportModal" class="btn-export">Экспорт</button>
-    </div>
-
-    <!-- Модалка экспорта -->
-    <div id="exportModal" class="modal-compatibility">
-        <div class="modal-content">
-            <span class="close-export">&times;</span>
-            <h2>Экспорт таблицы</h2>
-            <form method="get" action="/admin/compatibility/export">
-                <label>Выберите формат:</label><br><br>
-                <select name="format" required>
-                    <option value="word">Word</option>
-                    <option value="excel">Excel</option>
-                </select>
-                <br><br>
-                <button type="submit">Экспортировать</button>
-            </form>
+        <div class="center-button">
+            <button id="openModal" class="btn-add">Добавить совместимость</button>
+            <button id="openExportModal" class="btn-export">Экспорт</button>
         </div>
-    </div>
 
-    <div class="table-wrapper">
-        <table>
-            <thead>
-                <tr>
-                    <th>
-                        Принтер<br>
-                        <input type="text" id="filterPrinter" placeholder="Фильтр по принтеру">
-                    </th>
-                    <th>
-                        Картриджи<br>
-                        <input type="text" id="filterCartridge" placeholder="Фильтр по картриджу">
-                    </th>
-                    <th>Действия</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% if compatibilities|length == 0 %}
-                    <tr><td colspan="3" style="text-align:center;">Совместимости не найдены.</td></tr>
-                {% else %}
-                    {% for printer, cartridges in compatibilities %}
-                        <tr>
-                            <td>{{ printer|e }}</td>
-                            <td class="cartridges-cell">
-                                {% for cart in cartridges %}
-                                    <span class="cartridge-item">{{ cart|e }}</span>
-                                {% endfor %}
-                            </td>
-                            <td>
-                                <button class="editBtn btn-edit" data-printer="{{ printer|e }}">Изменить</button>
-                                <a href="?delete={{ printer|url_encode }}" class="delete-btn" onclick="return confirm('Удалить все совместимости с этим принтером?')">Удалить</a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                {% endif %}
-            </tbody>
-        </table>
-    </div>
+        <!-- Модалка экспорта -->
+        <div id="exportModal" class="modal-compatibility">
+            <div class="modal-content">
+                <span class="close-export">&times;</span>
+                <h2>Экспорт таблицы</h2>
+                <form method="get" action="/admin/compatibility/export">
+                    <label>Выберите формат:</label><br><br>
+                    <select name="format" required>
+                        <option value="word">Word</option>
+                        <option value="excel">Excel</option>
+                    </select>
+                    <br><br>
+                    <button type="submit">Экспортировать</button>
+                </form>
+            </div>
+        </div>
 
-    <!-- Модальное окно добавления -->
-    <div id="modal" class="modal-compatibility">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Добавить совместимость</h2>
-            <form method="post">
-                <label>Принтер:</label>
-                <input type="text" name="printer_name" required>
-                <div id="cartridgeFields">
-                    <label>Картридж:</label>
-                    <div class="cartridge-input-row">
-                        <input type="text" name="cartridge_names[]" required>
-                        <button type="button" class="remove-cartridge-btn" title="Удалить">&times;</button>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            Принтер<br>
+                            <input type="text" id="filterPrinter" placeholder="Фильтр по принтеру">
+                        </th>
+                        <th>
+                            Картриджи<br>
+                            <input type="text" id="filterCartridge" placeholder="Фильтр по картриджу">
+                        </th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if compatibilities|length == 0 %}
+                        <tr><td colspan="3" style="text-align:center;">Совместимости не найдены.</td></tr>
+                    {% else %}
+                        {% for printer, cartridges in compatibilities %}
+                            <tr>
+                                <td>{{ printer|e }}</td>
+                                <td class="cartridges-cell">
+                                    {% for cart in cartridges %}
+                                        <span class="cartridge-item">{{ cart|e }}</span>
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    <button class="editBtn btn-edit" data-printer="{{ printer|e }}">Изменить</button>
+                                    <a href="?delete={{ printer|url_encode }}" class="delete-btn" onclick="return confirm('Удалить все совместимости с этим принтером?')">Удалить</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Модальное окно добавления -->
+        <div id="modal" class="modal-compatibility">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Добавить совместимость</h2>
+                <form method="post">
+                    <label>Принтер:</label>
+                    <input type="text" name="printer_name" required>
+                    <div id="cartridgeFields">
+                        <label>Картридж:</label>
+                        <div class="cartridge-input-row">
+                            <input type="text" name="cartridge_names[]" required>
+                            <button type="button" class="remove-cartridge-btn" title="Удалить">&times;</button>
+                        </div>
                     </div>
-                </div>
-                <button type="button" id="addCartridgeField">+</button>
-                <br><br>
-                <button type="submit" name="add_compatibility">Сохранить</button>
-            </form>
+                    <button type="button" id="addCartridgeField">+</button>
+                    <br><br>
+                    <button type="submit" name="add_compatibility">Сохранить</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Модальное окно редактирования -->
+        <div id="editModal" class="modal-compatibility">
+            <div class="modal-content">
+                <span class="close-edit">&times;</span>
+                <h2>Редактировать совместимость</h2>
+                <form method="post">
+                    <input type="hidden" name="old_printer_name" id="oldPrinterName">
+                    <label>Принтер:</label>
+                    <input type="text" name="new_printer_name" id="editPrinterName" required>
+                    <div id="editCartridgeFields">
+                        <!-- JS заполнит -->
+                    </div>
+                    <button type="button" id="addEditCartridgeField">+</button>
+                    <br><br>
+                    <button type="submit" name="edit_compatibility">Сохранить изменения</button>
+                </form>
+            </div>
         </div>
     </div>
 
-    <!-- Модальное окно редактирования -->
-    <div id="editModal" class="modal-compatibility">
-        <div class="modal-content">
-            <span class="close-edit">&times;</span>
-            <h2>Редактировать совместимость</h2>
-            <form method="post">
-                <input type="hidden" name="old_printer_name" id="oldPrinterName">
-                <label>Принтер:</label>
-                <input type="text" name="new_printer_name" id="editPrinterName" required>
-                <div id="editCartridgeFields">
-                    <!-- JS заполнит -->
-                </div>
-                <button type="button" id="addEditCartridgeField">+</button>
-                <br><br>
-                <button type="submit" name="edit_compatibility">Сохранить изменения</button>
-            </form>
-        </div>
-    </div>
-</div>
-
-{% include 'components/notification.twig' %}
-
+    {% include 'components/notification.twig' %}
+</div>  <!-- ← Закрывающий div для .compatibility-page -->
 <script src="/js/admin/compatibility.js"></script>
 {% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'layouts/base.twig' %}
+
+{% block title %}Настройки заявок{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="/css/admin/setting.css">
+{% endblock %}
+
+{% block content %}
+<div class="setting-page">
+    <div class="content-wrapper">
+        <h1 class="page-title">Настройки заявок</h1>
+
+        {% if message %}
+            <div class="alert alert-success">{{ message|e }}</div>
+        {% endif %}
+
+        <form method="post" class="settings-form">
+            <div class="form-group">
+                <label for="recipient_name" class="form-label">
+                    И.О. Фамилия получателя заявок в Дательном падеже:
+                </label>
+                <input
+                    type="text"
+                    name="recipient_name"
+                    id="recipient_name"
+                    value="{{ currentValue|e }}"
+                    required
+                    class="form-input"
+                >
+            </div>
+            <button type="submit" class="form-submit">Сохранить</button>
+        </form>
+    </div>
+</div>
+
+{% include 'components/notification.twig' %}
+{% endblock %}
