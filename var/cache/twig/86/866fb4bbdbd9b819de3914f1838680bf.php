@@ -146,8 +146,15 @@ document.getElementById('templateForm').addEventListener('submit', function(e) {
         method: 'POST',
         body: formData
     })
-    .then(response => response.json()) // ← Убедись, что получаем JSON
+    .then(response => {
+        console.log('Статус ответа:', response.status);
+        if (!response.ok) {
+            throw new Error('Сетевая ошибка: ' + response.status);
+        }
+        return response.json();
+    })
     .then(data => {
+        console.log('Ответ от сервера:', data); // ← Для отладки
         document.getElementById('modal-sending-message').textContent = data.message;
         document.getElementById('modal-sending').classList.add('active');
         if (data.success) {
@@ -155,16 +162,16 @@ document.getElementById('templateForm').addEventListener('submit', function(e) {
         }
     })
     .catch(error => {
-        console.error('Ошибка:', error);
-        document.getElementById('modal-sending-message').textContent = 'Ошибка отправки заявки.';
+        console.error('Ошибка JS:', error); // ← Для отладки
+        document.getElementById('modal-sending-message').textContent = 'Ошибка отправки заявки: ' + error.message;
         document.getElementById('modal-sending').classList.add('active');
     });
 });
 </script>
 
 ";
-        // line 91
-        yield from $this->load("components/notification.twig", 91)->unwrap()->yield($context);
+        // line 98
+        yield from $this->load("components/notification.twig", 98)->unwrap()->yield($context);
         yield from [];
     }
 
@@ -189,7 +196,7 @@ document.getElementById('templateForm').addEventListener('submit', function(e) {
      */
     public function getDebugInfo(): array
     {
-        return array (  167 => 91,  84 => 10,  77 => 9,  71 => 6,  64 => 5,  53 => 3,  42 => 1,);
+        return array (  174 => 98,  84 => 10,  77 => 9,  71 => 6,  64 => 5,  53 => 3,  42 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -268,8 +275,15 @@ document.getElementById('templateForm').addEventListener('submit', function(e) {
         method: 'POST',
         body: formData
     })
-    .then(response => response.json()) // ← Убедись, что получаем JSON
+    .then(response => {
+        console.log('Статус ответа:', response.status);
+        if (!response.ok) {
+            throw new Error('Сетевая ошибка: ' + response.status);
+        }
+        return response.json();
+    })
     .then(data => {
+        console.log('Ответ от сервера:', data); // ← Для отладки
         document.getElementById('modal-sending-message').textContent = data.message;
         document.getElementById('modal-sending').classList.add('active');
         if (data.success) {
@@ -277,8 +291,8 @@ document.getElementById('templateForm').addEventListener('submit', function(e) {
         }
     })
     .catch(error => {
-        console.error('Ошибка:', error);
-        document.getElementById('modal-sending-message').textContent = 'Ошибка отправки заявки.';
+        console.error('Ошибка JS:', error); // ← Для отладки
+        document.getElementById('modal-sending-message').textContent = 'Ошибка отправки заявки: ' + error.message;
         document.getElementById('modal-sending').classList.add('active');
     });
 });

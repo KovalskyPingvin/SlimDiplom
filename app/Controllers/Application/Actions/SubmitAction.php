@@ -17,15 +17,25 @@ class SubmitAction
         $userId = $_SESSION['id_user'] ?? 0;
 
         if ($userId <= 0) {
-            return $response->withJson(['success' => false, 'message' => 'Ошибка: пользователь не авторизован.']);
+            error_log("Пользователь не авторизован");
+            return $response->withJson(['success' => false, 'message' => 'Ошибка: пользователь не авторизован.'], 401);
         }
 
-        $result = $this->model->createRequest($data, $userId);
+        error_log("Отправка заявки от пользователя ID: " . $userId);
+        error_log("Данные: " . json_encode($data));
 
-        if ($result) {
-            return $response->withJson(['success' => true, 'message' => 'Заявка успешно отправлена!']);
-        } else {
-            return $response->withJson(['success' => false, 'message' => 'Ошибка отправки заявки.']);
+        try {
+            $result = $this->model->createRequest($data, $userId);
+            error_log("Результат запроса: " . ($result ? 'true' : 'false'));
+
+            if ($result) {
+                return $response->withJson(['success' => true, 'message' => 'Заявка успешно отправлена!']);
+            } else {
+                return $response->withJson(['success' => false, 'message' => 'Ошибка отправки заявки.'], 500);
+            }
+        } catch (\Exception $e) {
+            error_log("Ошибка в SubmitAction: " . $e->getMessage());
+            return $response->withJson(['success' => false, 'message' => 'Ошибка сервера: ' . $e->getMessage()], 500);
         }
     }
 }

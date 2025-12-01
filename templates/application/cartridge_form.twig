@@ -72,8 +72,15 @@ document.getElementById('templateForm').addEventListener('submit', function(e) {
         method: 'POST',
         body: formData
     })
-    .then(response => response.json()) // ← Убедись, что получаем JSON
+    .then(response => {
+        console.log('Статус ответа:', response.status);
+        if (!response.ok) {
+            throw new Error('Сетевая ошибка: ' + response.status);
+        }
+        return response.json();
+    })
     .then(data => {
+        console.log('Ответ от сервера:', data); // ← Для отладки
         document.getElementById('modal-sending-message').textContent = data.message;
         document.getElementById('modal-sending').classList.add('active');
         if (data.success) {
@@ -81,8 +88,8 @@ document.getElementById('templateForm').addEventListener('submit', function(e) {
         }
     })
     .catch(error => {
-        console.error('Ошибка:', error);
-        document.getElementById('modal-sending-message').textContent = 'Ошибка отправки заявки.';
+        console.error('Ошибка JS:', error); // ← Для отладки
+        document.getElementById('modal-sending-message').textContent = 'Ошибка отправки заявки: ' + error.message;
         document.getElementById('modal-sending').classList.add('active');
     });
 });
