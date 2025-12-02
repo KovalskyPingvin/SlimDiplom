@@ -14,9 +14,7 @@
 
 <!-- Flash-уведомления -->
 {% if flash %}
-    <div class="flash-message flash-{{ flash.type }}">
-        {{ flash.message|e }}
-    </div>
+    <div class="flash-message flash-{{ flash.type }}">{{ flash.message|e }}</div>
 {% endif %}
 
 <main>

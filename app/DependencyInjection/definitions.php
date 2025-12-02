@@ -41,15 +41,16 @@ return [
         $loader = new FilesystemLoader(__DIR__ . '/../../templates');
         $twig = new Twig($loader, [
             'cache' => __DIR__ . '/../../var/cache/twig',
-            'debug' => true,
+            'debug' => false, // ← Выключаем отладку
             'auto_reload' => true,
         ]);
 
         // === Подключаем пользовательские фильтры ===
         $twig->getEnvironment()->addExtension(new TwigExtensions());
 
-        // === Добавляем Flash-сообщения в шаблоны ===
-        $twig->getEnvironment()->addGlobal('flash', $_SESSION['flash_message'] ?? null);
+        // === Добавляем Flash-сообщение (только один раз) ===
+        $flashService = $container->get(FlashService::class);
+        $twig->getEnvironment()->addGlobal('flash', $flashService->getMessage());
 
         $twig->getEnvironment()->addGlobal('session', $_SESSION ?? []);
 

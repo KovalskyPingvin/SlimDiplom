@@ -40,4 +40,23 @@ class RequestsAction
 
         return $this->view->render($response, 'admin/requests.twig', $data);
     }
+
+    public function updateRequestStatus(int $id, string $type, string $status): bool
+{
+    try {
+        if ($type === 'Картридж') {
+            $stmt = $this->pdo->prepare("UPDATE cartridge_requests SET status = ? WHERE id_request = ?");
+        } elseif ($type === 'Техника') {
+            $stmt = $this->pdo->prepare("UPDATE tech_requests SET status = ? WHERE id_request = ?");
+        } else {
+            return false;
+        }
+
+        $result = $stmt->execute([$status, $id]);
+        return $result;
+    } catch (\Exception $e) {
+        error_log("Ошибка при обновлении статуса заявки: " . $e->getMessage());
+        return false;
+    }
+}
 }

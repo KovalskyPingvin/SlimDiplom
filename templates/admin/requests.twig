@@ -110,18 +110,19 @@
 
     // === Обработчик кнопки "Завершить" ===
     document.querySelectorAll('.btn-complete').forEach(button => {
-        button.addEventListener('click', function () {
-            const id = this.dataset.id;
-            const type = this.dataset.type;
+        button.addEventListener('click', function (e) {
+            e.preventDefault();
 
             if (confirm('Вы действительно хотите завершить заявку?')) {
+                const id = this.dataset.id;
+                const type = this.dataset.type;
+
                 const form = document.createElement('form');
                 form.method = 'POST';
                 form.action = '/admin/requests/complete';
                 form.innerHTML = `
                     <input type="hidden" name="id" value="${id}">
                     <input type="hidden" name="type" value="${type}">
-                    <input type="hidden" name="action" value="complete">
                 `;
                 document.body.appendChild(form);
                 form.submit();

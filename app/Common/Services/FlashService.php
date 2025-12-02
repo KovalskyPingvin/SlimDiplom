@@ -11,14 +11,16 @@ class FlashService
     {
         $_SESSION[self::FLASH_KEY] = [
             'message' => $message,
-            'type' => $type, // 'success', 'error', 'warning', 'info'
+            'type' => $type,
         ];
     }
 
     public function getMessage(): ?array
     {
         $message = $_SESSION[self::FLASH_KEY] ?? null;
-        unset($_SESSION[self::FLASH_KEY]); // Удаляем после получения
+        if ($message) {
+            unset($_SESSION[self::FLASH_KEY]); // ← Удаляем после получения
+        }
         return $message;
     }
 
