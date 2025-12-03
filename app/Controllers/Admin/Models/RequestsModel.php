@@ -11,8 +11,8 @@ class RequestsModel
 
     public function getAllRequests(int $limit, int $offset): array
     {
-        $stmt = $this->pdo->prepare("
-            SELECT
+        $sql = "
+            SELECT 
                 'Картридж' as type,
                 cr.id_request,
                 cr.department_name,
@@ -23,11 +23,13 @@ class RequestsModel
                 cr.building_number,
                 cr.room_number,
                 cr.reason,
-                cr.submission_date,
+                DATE_FORMAT(cr.submission_date, '%Y-%m-%d') as submission_date,  -- ← Только дата
                 cr.status
             FROM cartridge_requests cr
+
             UNION ALL
-            SELECT
+
+            SELECT 
                 'Техника' as type,
                 tr.id_request,
                 tr.department_name,
@@ -38,17 +40,17 @@ class RequestsModel
                 tr.building_number,
                 tr.room_number,
                 tr.reason,
-                tr.submission_date,
+                DATE_FORMAT(tr.submission_date, '%Y-%m-%d') as submission_date,  -- ← Только дата
                 tr.status
             FROM tech_requests tr
-            ORDER BY submission_date DESC
-            LIMIT :limit OFFSET :offset
-        ");
+            ORDER BY submission_date DESC, id_request DESC
+            LIMIT ? OFFSET ?
+        ";
 
-        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
-        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(1, $limit, PDO::PARAM_INT);
+        $stmt->bindValue(2, $offset, PDO::PARAM_INT);
         $stmt->execute();
-
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -72,19 +74,30 @@ class RequestsModel
         return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
     }
 
-    public function updateRequestStatus(int $id, string $type, string $status): void
+    public function updateRequestStatus(int $id, string $type, string $status): bool
     {
-        $table = $type === 'Картридж' ? 'cartridge_requests' : 'tech_requests';
-        $stmt = $this->pdo->prepare("UPDATE $table SET status = ? WHERE id_request = ?");
-        $stmt->execute([$status, $id]);
+        try {
+            if ($type === 'Картридж') {
+                $stmt = $this->pdo->prepare("UPDATE cartridge_requests SET status = ? WHERE id_request = ?");
+            } elseif ($type === 'Техника') {
+                $stmt = $this->pdo->prepare("UPDATE tech_requests SET status = ? WHERE id_request = ?");
+            } else {
+                return false;
+            }
+
+            $result = $stmt->execute([$status, $id]);
+            return $result;
+        } catch (\Exception $e) {
+            error_log("Ошибка при обновлении статуса заявки: " . $e->getMessage());
+            return false;
+        }
     }
 
-    // === НОВОЕ: получить имя получателя из БД ===
     public function getRecipientName(): string
     {
         $stmt = $this->pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'recipient_name' LIMIT 1");
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result ? $result['setting_value'] : 'М.Г. Беликову'; // значение по умолчанию
+        return $result ? $result['setting_value'] : 'М.Г. Беликову';
     }
 }

@@ -53,7 +53,7 @@
                             <td>{{ req.building_number|e }}</td>
                             <td>{{ req.room_number|e }}</td>
                             <td>{{ req.reason|e }}</td>
-                            <td>{{ req.submission_date|date('d.m.Y H:i') }}</td>
+                            <td>{{ req.submission_date|date('d.m.Y') }}</td>
                             <td class="status-cell {{ req.status == 'Завершен' ? 'status-done' : 'status-pending' }}">
                                 {{ req.status }}
                             </td>

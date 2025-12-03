@@ -99,10 +99,23 @@ class __TwigTemplate_48330b6e4548dad84982892832dc07a1 extends Template
         yield "<div class=\"requests-admin-page\">
     <h1 class=\"h1-requests-admin\">Заявки пользователей</h1>
 
+    <!-- Фильтр \"Только незавершенные\" -->
+    <div class=\"request-filter\">
+        <label>
+            <input type=\"checkbox\" id=\"filter-incomplete\" ";
+        // line 21
+        if ((($tmp = ($context["show_only_pending"] ?? null)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+            yield "checked";
+        }
+        yield ">
+            Показать только незавершенные
+        </label>
+    </div>
+
     ";
-        // line 18
+        // line 26
         if ((Twig\Extension\CoreExtension::length($this->env->getCharset(), ($context["requests"] ?? null)) > 0)) {
-            // line 19
+            // line 27
             yield "        <table class=\"table-requests-admin\">
             <thead>
                 <tr class=\"tr-requests-header\">
@@ -122,113 +135,113 @@ class __TwigTemplate_48330b6e4548dad84982892832dc07a1 extends Template
             </thead>
             <tbody>
                 ";
-            // line 37
+            // line 45
             $context['_parent'] = $context;
             $context['_seq'] = CoreExtension::ensureTraversable(($context["requests"] ?? null));
             foreach ($context['_seq'] as $context["_key"] => $context["req"]) {
-                // line 38
+                // line 46
                 yield "                    <tr>
                         <td>";
-                // line 39
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "type", [], "any", false, false, false, 39));
-                yield "</td>
-                        <td>";
-                // line 40
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "department_name", [], "any", false, false, false, 40));
-                yield "</td>
-                        <td>";
-                // line 41
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "head_full_name", [], "any", false, false, false, 41));
-                yield "</td>
-                        <td>";
-                // line 42
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "phone", [], "any", false, false, false, 42));
-                yield "</td>
-                        <td>";
-                // line 43
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "inventory_number", [], "any", false, false, false, 43));
-                yield "</td>
-                        <td>";
-                // line 44
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "device_name", [], "any", false, false, false, 44));
-                yield "</td>
-                        <td>";
-                // line 45
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "building_number", [], "any", false, false, false, 45));
-                yield "</td>
-                        <td>";
-                // line 46
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "room_number", [], "any", false, false, false, 46));
-                yield "</td>
-                        <td>";
                 // line 47
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "reason", [], "any", false, false, false, 47));
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "type", [], "any", false, false, false, 47));
                 yield "</td>
                         <td>";
                 // line 48
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatDate(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "submission_date", [], "any", false, false, false, 48), "d.m.Y H:i"), "html", null, true);
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "department_name", [], "any", false, false, false, 48));
                 yield "</td>
-                        <td class=\"status-cell ";
+                        <td>";
                 // line 49
-                yield (((CoreExtension::getAttribute($this->env, $this->source, $context["req"], "status", [], "any", false, false, false, 49) == "Завершен")) ? ("status-done") : ("status-pending"));
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "head_full_name", [], "any", false, false, false, 49));
+                yield "</td>
+                        <td>";
+                // line 50
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "phone", [], "any", false, false, false, 50));
+                yield "</td>
+                        <td>";
+                // line 51
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "inventory_number", [], "any", false, false, false, 51));
+                yield "</td>
+                        <td>";
+                // line 52
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "device_name", [], "any", false, false, false, 52));
+                yield "</td>
+                        <td>";
+                // line 53
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "building_number", [], "any", false, false, false, 53));
+                yield "</td>
+                        <td>";
+                // line 54
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "room_number", [], "any", false, false, false, 54));
+                yield "</td>
+                        <td>";
+                // line 55
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "reason", [], "any", false, false, false, 55));
+                yield "</td>
+                        <td>";
+                // line 56
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatDate(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "submission_date", [], "any", false, false, false, 56), "d.m.Y"), "html", null, true);
+                yield "</td>  <!-- ← Исправлено -->
+                        <td class=\"status-cell ";
+                // line 57
+                yield (((CoreExtension::getAttribute($this->env, $this->source, $context["req"], "status", [], "any", false, false, false, 57) == "Завершен")) ? ("status-done") : ("status-pending"));
                 yield "\">
                             ";
-                // line 50
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "status", [], "any", false, false, false, 50), "html", null, true);
+                // line 58
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "status", [], "any", false, false, false, 58), "html", null, true);
                 yield "
                         </td>
                         <td>
                             <button class=\"btn-print\"
                                 data-department=\"";
-                // line 54
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "department_name", [], "any", false, false, false, 54));
+                // line 62
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "department_name", [], "any", false, false, false, 62));
                 yield "\"
                                 data-chief=\"";
-                // line 55
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "head_full_name", [], "any", false, false, false, 55));
+                // line 63
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "head_full_name", [], "any", false, false, false, 63));
                 yield "\"
                                 data-phone=\"";
-                // line 56
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "phone", [], "any", false, false, false, 56));
+                // line 64
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "phone", [], "any", false, false, false, 64));
                 yield "\"
                                 data-device=\"";
-                // line 57
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "device_name", [], "any", false, false, false, 57));
+                // line 65
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "device_name", [], "any", false, false, false, 65));
                 yield "\"
                                 data-inventory=\"";
-                // line 58
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "inventory_number", [], "any", false, false, false, 58));
+                // line 66
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "inventory_number", [], "any", false, false, false, 66));
                 yield "\"
                                 data-building=\"";
-                // line 59
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "building_number", [], "any", false, false, false, 59));
+                // line 67
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "building_number", [], "any", false, false, false, 67));
                 yield "\"
                                 data-room=\"";
-                // line 60
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "room_number", [], "any", false, false, false, 60));
+                // line 68
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "room_number", [], "any", false, false, false, 68));
                 yield "\"
                                 data-reason=\"";
-                // line 61
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "reason", [], "any", false, false, false, 61));
+                // line 69
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "reason", [], "any", false, false, false, 69));
                 yield "\"
                                 data-recipient=\"";
-                // line 62
+                // line 70
                 yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(($context["recipient_name"] ?? null));
-                yield "\">  <!-- ← ЗДЕСЬ ИСПРАВЛЕНО -->
+                yield "\">
                                 Печать
                             </button>
                             ";
-                // line 65
-                if ((CoreExtension::getAttribute($this->env, $this->source, $context["req"], "status", [], "any", false, false, false, 65) != "Завершен")) {
-                    // line 66
+                // line 73
+                if ((CoreExtension::getAttribute($this->env, $this->source, $context["req"], "status", [], "any", false, false, false, 73) != "Завершен")) {
+                    // line 74
                     yield "                                <button class=\"btn-complete\" data-id=\"";
-                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "id_request", [], "any", false, false, false, 66), "html", null, true);
+                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "id_request", [], "any", false, false, false, 74), "html", null, true);
                     yield "\" data-type=\"";
-                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "type", [], "any", false, false, false, 66), "html", null, true);
+                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "type", [], "any", false, false, false, 74), "html", null, true);
                     yield "\">Завершить</button>
                             ";
                 }
-                // line 68
+                // line 76
                 yield "                        </td>
                     </tr>
                 ";
@@ -236,23 +249,26 @@ class __TwigTemplate_48330b6e4548dad84982892832dc07a1 extends Template
             $_parent = $context['_parent'];
             unset($context['_seq'], $context['_key'], $context['req'], $context['_parent']);
             $context = array_intersect_key($context, $_parent) + $_parent;
-            // line 71
+            // line 79
             yield "            </tbody>
         </table>
 
         ";
-            // line 74
+            // line 82
             if ((($context["total_pages"] ?? null) > 1)) {
-                // line 75
+                // line 83
                 yield "            <div class=\"pagination requests-pagination\">
                 ";
-                // line 76
+                // line 84
                 $context['_parent'] = $context;
                 $context['_seq'] = CoreExtension::ensureTraversable(range(1, ($context["total_pages"] ?? null)));
                 foreach ($context['_seq'] as $context["_key"] => $context["i"]) {
-                    // line 77
+                    // line 85
                     yield "                    <a href=\"?page=";
                     yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($context["i"], "html", null, true);
+                    if ((($tmp = ($context["show_only_pending"] ?? null)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+                        yield "&status=pending";
+                    }
                     yield "\" class=\"";
                     yield ((($context["i"] == ($context["current_page"] ?? null))) ? ("active") : (""));
                     yield "\">";
@@ -263,19 +279,19 @@ class __TwigTemplate_48330b6e4548dad84982892832dc07a1 extends Template
                 $_parent = $context['_parent'];
                 unset($context['_seq'], $context['_key'], $context['i'], $context['_parent']);
                 $context = array_intersect_key($context, $_parent) + $_parent;
-                // line 79
+                // line 87
                 yield "            </div>
         ";
             }
-            // line 81
+            // line 89
             yield "
     ";
         } else {
-            // line 83
+            // line 91
             yield "        <p class=\"p-requests-empty\">Нет заявок.</p>
     ";
         }
-        // line 85
+        // line 93
         yield "</div>
 
 <script>
@@ -291,7 +307,7 @@ class __TwigTemplate_48330b6e4548dad84982892832dc07a1 extends Template
                 building: this.dataset.building,
                 room: this.dataset.room,
                 reason: this.dataset.reason,
-                recipient: this.dataset.recipient, // ← используется из data-recipient
+                recipient: this.dataset.recipient,
             };
 
             if (typeof generateDoc === 'function') {
@@ -323,11 +339,23 @@ class __TwigTemplate_48330b6e4548dad84982892832dc07a1 extends Template
             }
         });
     });
+
+    // === Фильтр \"Только незавершенные\" ===
+    document.getElementById('filter-incomplete').addEventListener('change', function() {
+        const showOnlyPending = this.checked;
+        const url = new URL(window.location.href);
+        if (showOnlyPending) {
+            url.searchParams.set('status', 'pending');
+        } else {
+            url.searchParams.delete('status');
+        }
+        window.location.href = url.toString();
+    });
 </script>
 
 ";
-        // line 134
-        yield from $this->load("components/notification.twig", 134)->unwrap()->yield($context);
+        // line 154
+        yield from $this->load("components/notification.twig", 154)->unwrap()->yield($context);
         yield from [];
     }
 
@@ -352,7 +380,7 @@ class __TwigTemplate_48330b6e4548dad84982892832dc07a1 extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  330 => 134,  279 => 85,  275 => 83,  271 => 81,  267 => 79,  254 => 77,  250 => 76,  247 => 75,  245 => 74,  240 => 71,  232 => 68,  224 => 66,  222 => 65,  216 => 62,  212 => 61,  208 => 60,  204 => 59,  200 => 58,  196 => 57,  192 => 56,  188 => 55,  184 => 54,  177 => 50,  173 => 49,  169 => 48,  165 => 47,  161 => 46,  157 => 45,  153 => 44,  149 => 43,  145 => 42,  141 => 41,  137 => 40,  133 => 39,  130 => 38,  126 => 37,  106 => 19,  104 => 18,  99 => 15,  92 => 14,  85 => 10,  78 => 9,  72 => 6,  65 => 5,  54 => 3,  43 => 1,);
+        return array (  358 => 154,  295 => 93,  291 => 91,  287 => 89,  283 => 87,  267 => 85,  263 => 84,  260 => 83,  258 => 82,  253 => 79,  245 => 76,  237 => 74,  235 => 73,  229 => 70,  225 => 69,  221 => 68,  217 => 67,  213 => 66,  209 => 65,  205 => 64,  201 => 63,  197 => 62,  190 => 58,  186 => 57,  182 => 56,  178 => 55,  174 => 54,  170 => 53,  166 => 52,  162 => 51,  158 => 50,  154 => 49,  150 => 48,  146 => 47,  143 => 46,  139 => 45,  119 => 27,  117 => 26,  107 => 21,  99 => 15,  92 => 14,  85 => 10,  78 => 9,  72 => 6,  65 => 5,  54 => 3,  43 => 1,);
     }
 
     public function getSourceContext(): Source

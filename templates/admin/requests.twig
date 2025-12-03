@@ -15,6 +15,14 @@
 <div class="requests-admin-page">
     <h1 class="h1-requests-admin">Заявки пользователей</h1>
 
+    <!-- Фильтр "Только незавершенные" -->
+    <div class="request-filter">
+        <label>
+            <input type="checkbox" id="filter-incomplete" {% if show_only_pending %}checked{% endif %}>
+            Показать только незавершенные
+        </label>
+    </div>
+
     {% if requests|length > 0 %}
         <table class="table-requests-admin">
             <thead>
@@ -45,7 +53,7 @@
                         <td>{{ req.building_number|e }}</td>
                         <td>{{ req.room_number|e }}</td>
                         <td>{{ req.reason|e }}</td>
-                        <td>{{ req.submission_date|date('d.m.Y H:i') }}</td>
+                        <td>{{ req.submission_date|date('d.m.Y') }}</td>  <!-- ← Исправлено -->
                         <td class="status-cell {{ req.status == 'Завершен' ? 'status-done' : 'status-pending' }}">
                             {{ req.status }}
                         </td>
@@ -59,7 +67,7 @@
                                 data-building="{{ req.building_number|e }}"
                                 data-room="{{ req.room_number|e }}"
                                 data-reason="{{ req.reason|e }}"
-                                data-recipient="{{ recipient_name|e }}">  <!-- ← ЗДЕСЬ ИСПРАВЛЕНО -->
+                                data-recipient="{{ recipient_name|e }}">
                                 Печать
                             </button>
                             {% if req.status != 'Завершен' %}
@@ -74,7 +82,7 @@
         {% if total_pages > 1 %}
             <div class="pagination requests-pagination">
                 {% for i in 1..total_pages %}
-                    <a href="?page={{ i }}" class="{{ i == current_page ? 'active' : '' }}">{{ i }}</a>
+                    <a href="?page={{ i }}{% if show_only_pending %}&status=pending{% endif %}" class="{{ i == current_page ? 'active' : '' }}">{{ i }}</a>
                 {% endfor %}
             </div>
         {% endif %}
@@ -97,7 +105,7 @@
                 building: this.dataset.building,
                 room: this.dataset.room,
                 reason: this.dataset.reason,
-                recipient: this.dataset.recipient, // ← используется из data-recipient
+                recipient: this.dataset.recipient,
             };
 
             if (typeof generateDoc === 'function') {
@@ -128,6 +136,18 @@
                 form.submit();
             }
         });
+    });
+
+    // === Фильтр "Только незавершенные" ===
+    document.getElementById('filter-incomplete').addEventListener('change', function() {
+        const showOnlyPending = this.checked;
+        const url = new URL(window.location.href);
+        if (showOnlyPending) {
+            url.searchParams.set('status', 'pending');
+        } else {
+            url.searchParams.delete('status');
+        }
+        window.location.href = url.toString();
     });
 </script>
 

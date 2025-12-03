@@ -22,8 +22,21 @@ class RequestsAction
         $page = max(1, $page);
         $limit = 10;
         $offset = ($page - 1) * $limit;
+        
+        // Фильтр по статусу
+        $showOnlyPending = isset($queryParams['status']) && $queryParams['status'] === 'pending';
 
         $requests = $this->model->getAllRequests($limit, $offset);
+        
+        // Применяем фильтр если нужно
+        if ($showOnlyPending) {
+            $requests = array_filter($requests, function($req) {
+                return $req['status'] !== 'Завершен';
+            });
+            // Перенумеруем массив после фильтрации
+            $requests = array_values($requests);
+        }
+
         $total = $this->model->getTotalRequestsCount();
         $totalPages = ceil($total / $limit);
 
@@ -36,27 +49,9 @@ class RequestsAction
             'total_pages' => $totalPages,
             'total_count' => $total,
             'recipient_name' => $recipientName, // ← передаём в шаблон
+            'show_only_pending' => $showOnlyPending,
         ];
 
         return $this->view->render($response, 'admin/requests.twig', $data);
     }
-
-    public function updateRequestStatus(int $id, string $type, string $status): bool
-{
-    try {
-        if ($type === 'Картридж') {
-            $stmt = $this->pdo->prepare("UPDATE cartridge_requests SET status = ? WHERE id_request = ?");
-        } elseif ($type === 'Техника') {
-            $stmt = $this->pdo->prepare("UPDATE tech_requests SET status = ? WHERE id_request = ?");
-        } else {
-            return false;
-        }
-
-        $result = $stmt->execute([$status, $id]);
-        return $result;
-    } catch (\Exception $e) {
-        error_log("Ошибка при обновлении статуса заявки: " . $e->getMessage());
-        return false;
-    }
-}
 }

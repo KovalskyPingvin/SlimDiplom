@@ -13,6 +13,7 @@ class CartridgeRequestModel
     {
         try {
             if (!$this->pdo) {
+                error_log("PDO не подключен");
                 return false;
             }
 
@@ -32,12 +33,11 @@ class CartridgeRequestModel
                 $data['buildingNumber'] ?? '',
                 $data['roomNumber'] ?? '',
                 $data['reason'] ?? '',
-                date('Y-m-d'),
+                date('Y-m-d'), // ← Только дата, без времени
                 $userId,
             ]);
 
             if ($result) {
-                // Логирование (оставим, если нужно, но можно убрать)
                 $logDir = __DIR__ . '/../../../var/logs';
                 if (!is_dir($logDir)) {
                     mkdir($logDir, 0777, true);
@@ -48,6 +48,7 @@ class CartridgeRequestModel
 
             return $result;
         } catch (\Exception $e) {
+            error_log("Ошибка при создании заявки: " . $e->getMessage());
             return false;
         }
     }

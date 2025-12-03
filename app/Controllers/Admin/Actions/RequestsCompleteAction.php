@@ -5,7 +5,7 @@ namespace App\Controllers\Admin\Actions;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use App\Controllers\Admin\Models\RequestsModel; // ← используем модель из /admin/requests
+use App\Controllers\Admin\Models\RequestsModel;
 use App\Common\Services\FlashService;
 
 class RequestsCompleteAction

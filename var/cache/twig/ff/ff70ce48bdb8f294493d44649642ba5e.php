@@ -178,7 +178,7 @@ class __TwigTemplate_794857275e7096739a01fcf902a3a129 extends Template
                 yield "</td>
                             <td>";
                 // line 56
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatDate(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "submission_date", [], "any", false, false, false, 56), "d.m.Y H:i"), "html", null, true);
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatDate(CoreExtension::getAttribute($this->env, $this->source, $context["req"], "submission_date", [], "any", false, false, false, 56), "d.m.Y"), "html", null, true);
                 yield "</td>
                             <td class=\"status-cell ";
                 // line 57

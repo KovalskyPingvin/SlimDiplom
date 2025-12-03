@@ -11,11 +11,6 @@ class RequestUserModel
 
     public function getUserRequests(int $userId, int $limit, int $offset): array
     {
-        // Преобразуем параметры в строки для LIMIT/OFFSET (без кавычек!)
-        $limit = (int)$limit;
-        $offset = (int)$offset;
-
-        // Используем только позиционные параметры для WHERE
         $sql = "
             SELECT 
                 'Картридж' AS request_type,
@@ -28,7 +23,7 @@ class RequestUserModel
                 building_number,
                 room_number,
                 reason,
-                submission_date,
+                DATE_FORMAT(submission_date, '%Y-%m-%d') as submission_date,  -- ← Только дата (это комментарий SQL)
                 status
             FROM cartridge_requests
             WHERE user_id = ?
@@ -46,16 +41,20 @@ class RequestUserModel
                 building_number,
                 room_number,
                 reason,
-                submission_date,
+                DATE_FORMAT(submission_date, '%Y-%m-%d') as submission_date,  -- ← Только дата (это комментарий SQL)
                 status
             FROM tech_requests
             WHERE user_id = ?
             ORDER BY submission_date DESC, id_request DESC
-            LIMIT $limit OFFSET $offset
+            LIMIT ? OFFSET ?
         ";
 
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([$userId, $userId]);
+        $stmt->bindValue(1, $userId, PDO::PARAM_INT);
+        $stmt->bindValue(2, $userId, PDO::PARAM_INT);
+        $stmt->bindValue(3, $limit, PDO::PARAM_INT);
+        $stmt->bindValue(4, $offset, PDO::PARAM_INT);
+        $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 

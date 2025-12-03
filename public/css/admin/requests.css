@@ -1,6 +1,5 @@
-/* === Изолированные стили для страницы списания === */
+/* === Стили только для страницы заявок администратора === */
 
-/* === Общие стили для страницы === */
 .requests-admin-page {
     flex: 1;
     display: flex;
@@ -105,74 +104,6 @@
     background-color: #218838;
 }
 
-/* === Блок с кнопками стрелок === */
-.requests-admin-page .buttons-middle {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    justify-content: center;
-    margin-top: 60px;
-}
-
-.requests-admin-page .btn-arrow {
-    cursor: pointer;
-    font-size: 24px;
-    width: 40px;
-    height: 40px;
-    border: 1px solid #007bff;
-    color: #007bff;
-    background: white;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    user-select: none;
-    transition: background-color 0.2s;
-}
-
-.requests-admin-page .btn-arrow:hover:not(:disabled) {
-    background-color: #007bff;
-    color: white;
-}
-
-.requests-admin-page .btn-arrow:disabled {
-    opacity: 0.3;
-    cursor: default;
-}
-
-/* === Заголовок и кнопка "Списать" === */
-.requests-admin-page .header-writeoff {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 5px;
-}
-
-.requests-admin-page .btn-delete-all {
-    background-color: #dc3545;
-    border: none;
-    color: white;
-    padding: 5px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.2s;
-}
-
-.requests-admin-page .btn-delete-all:hover {
-    background-color: #c82333;
-}
-
-/* === Поисковые поля === */
-.requests-admin-page .search-input {
-    width: 100%;
-    padding: 6px 10px;
-    box-sizing: border-box;
-    margin-bottom: 6px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
 /* === Пагинация (всегда внизу, но с отступом от футера) === */
 .requests-admin-page .requests-pagination {
     display: flex;
@@ -213,6 +144,42 @@
     background-color: #001f4a;
 }
 
+/* === Фильтр "Только незавершенные" === */
+.requests-admin-page .request-filter {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+    padding: 0 20px;
+}
+
+.requests-admin-page .request-filter label {
+    font-size: 14px;
+    color: #333;
+}
+
+.requests-admin-page .request-filter input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+/* === Статусы === */
+.requests-admin-page .status-done {
+    color: green;
+    font-weight: bold;
+}
+
+.requests-admin-page .status-pending {
+    color: orange;
+    font-weight: bold;
+}
+
+/* === Пустая таблица === */
+.requests-admin-page .p-requests-empty {
+    text-align: center;
+    font-size: 18px;
+    color: #666;
+    margin-top: 30px;
+}
+
 /* === Адаптивность === */
 @media (max-width: 768px) {
     .requests-admin-page .tables-container {
@@ -224,14 +191,8 @@
         width: 100%;
     }
 
-    .requests-admin-page .buttons-middle {
-        flex-direction: row;
+    .requests-admin-page .request-filter {
         justify-content: center;
-        margin: 10px 0;
-    }
-
-    .requests-admin-page .btn-arrow {
-        margin: 0 5px;
     }
 
     .requests-admin-page .requests-pagination {
@@ -243,76 +204,4 @@
         padding: 8px 12px;
         font-size: 13px;
     }
-}
-
-/* === Модальное окно подтверждения === */
-.requests-admin-page .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0,0,0,0.5);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-}
-
-.requests-admin-page .modal-overlay.active {
-    display: flex;
-}
-
-.requests-admin-page .modal-container-writeoff {
-    background: white;
-    padding: 25px;
-    border-radius: 10px;
-    max-width: 500px;
-    width: 90%;
-    box-sizing: border-box;
-    text-align: center;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-    position: relative;
-    z-index: 10000;
-}
-
-.requests-admin-page .modal-container-writeoff p {
-    font-size: 16px;
-    margin: 0 0 20px;
-    color: #333;
-    line-height: 1.5;
-}
-
-.requests-admin-page .modal-buttons {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-}
-
-.requests-admin-page .modal-button {
-    padding: 10px 20px;
-    cursor: pointer;
-    border: none;
-    border-radius: 5px;
-    font-weight: bold;
-    font-size: 16px;
-}
-
-.requests-admin-page .modal-button.confirm {
-    background-color: #dc3545;
-    color: white;
-}
-
-.requests-admin-page .modal-button.confirm:hover {
-    background-color: #c82333;
-}
-
-.requests-admin-page .modal-button.cancel {
-    background-color: #6c757d;
-    color: white;
-}
-
-.requests-admin-page .modal-button.cancel:hover {
-    background-color: #5a6268;
 }
