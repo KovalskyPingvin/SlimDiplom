@@ -4,7 +4,7 @@ return [
         'host' => '127.0.0.1',
         'dbname' => 'site_structure',
         'username' => 'root',
-        'password' => 'Kovalsky',
+        'password' => '',
         'charset' => 'utf8',
     ],
 ];

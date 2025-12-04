@@ -19,12 +19,6 @@ class EditUsersAction
     {
         $method = $request->getMethod();
         $params = $request->getParsedBody();
-        $users = $this->model->getAllUsers();
-        $data = [
-            'users' => $users,
-            'errorAdd' => null,
-            'errorEdit' => null,
-        ];
 
         if ($method === 'POST' && isset($params['action'])) {
             $action = $params['action'];
@@ -33,36 +27,59 @@ class EditUsersAction
                 $log = trim($params['log'] ?? '');
                 $pass = trim($params['pass'] ?? '');
                 $username = trim($params['username'] ?? '');
+                $role = $params['role'] ?? 'user';
 
-                if ($this->model->isLoginExists($log)) {
-                    $data['errorAdd'] = "Логин \"$log\" уже используется. Пожалуйста, выберите другой.";
-                } else {
-                    $this->model->addUser($log, $pass, $username);
-                    return $response->withHeader('Location', '/admin/editusers')->withStatus(302);
+                if ($log && $pass && $username) {
+                    $this->model->createUser([
+                        'log' => $log,
+                        'pass' => $pass,
+                        'username' => $username,
+                        'role' => $role,
+                    ]);
                 }
+                return $response->withHeader('Location', '/admin/editusers')->withStatus(302);
             }
 
             if ($action === 'edit') {
-                $id = (int)($params['id_user'] ?? 0);
-                $log = trim($params['log'] ?? '');
-                $pass = trim($params['pass'] ?? '');
-                $username = trim($params['username'] ?? '');
+                $id = (int)($params['id'] ?? 0);
+                if ($id > 0) {
+                    $log = trim($params['log'] ?? '');
+                    $pass = trim($params['pass'] ?? '');
+                    $username = trim($params['username'] ?? '');
+                    $role = $params['role'] ?? 'user';
 
-                if ($this->model->isLoginExists($log, $id)) {
-                    $data['errorEdit'] = "Логин \"$log\" уже используется. Пожалуйста, выберите другой.";
-                } else {
-                    $this->model->updateUser($id, $log, $pass, $username);
-                    return $response->withHeader('Location', '/admin/editusers')->withStatus(302);
+                    if ($log && $username) {
+                        $this->model->updateUser($id, [
+                            'log' => $log,
+                            'pass' => $pass,
+                            'username' => $username,
+                            'role' => $role,
+                        ]);
+                    }
                 }
+                return $response->withHeader('Location', '/admin/editusers')->withStatus(302);
             }
 
-            if ($action === 'delete' && (int)($params['id_user'] ?? 0) > 2) {
-                $id = (int)$params['id_user'];
-                $this->model->deleteUser($id);
+            if ($action === 'delete') {
+                $id = (int)($params['id'] ?? 0);
+                if ($id > 0) {
+                    $user = $this->model->findById($id);
+                    // Не удаляем администраторов
+                    if ($user && in_array($user['role'], ['admin_ui', 'admin_it'])) {
+                        // Можешь добавить flash-уведомление
+                        return $response->withHeader('Location', '/admin/editusers')->withStatus(302);
+                    }
+
+                    $this->model->deleteUser($id);
+                }
                 return $response->withHeader('Location', '/admin/editusers')->withStatus(302);
             }
         }
 
-        return $this->view->render($response, 'admin/editusers.twig', $data);
+        $users = $this->model->getAllUsers();
+
+        return $this->view->render($response, 'admin/editusers.twig', [
+            'users' => $users,
+        ]);
     }
 }

@@ -1,10 +1,16 @@
 /* === Стили только для страницы управления пользователями === */
 
+.editusers-page {
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 100vh !important;
+}
+
 .editusers-page .content-wrapper {
-    padding: 40px 20px 20px 100px;
-    background-color: #f4f4f4;
-    min-height: 100vh;
-    box-sizing: border-box;
+    padding: 40px 20px 20px 100px !important;
+    background-color: #f4f4f4 !important;
+    min-height: 100vh !important;
+    box-sizing: border-box !important;
 }
 
 .editusers-page .page-title {
@@ -84,7 +90,7 @@
 .editusers-page .modal-overlay {
     display: none;
     position: fixed;
-    z-index: 2000; /* Выше сайдбара */
+    z-index: 2000;
     top: 0;
     left: 0;
     width: 100vw;

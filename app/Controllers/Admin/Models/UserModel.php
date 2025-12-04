@@ -11,32 +11,56 @@ class UserModel
 
     public function getAllUsers(): array
     {
-        $stmt = $this->pdo->query("SELECT id_user, log, pass, username FROM users ORDER BY id_user ASC");
+        $stmt = $this->pdo->query("
+            SELECT id_user, log, username, role FROM users ORDER BY id_user ASC
+        ");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function isLoginExists(string $log, ?int $excludeId = null): bool
+    public function findById(int $id): ?array
     {
-        if ($excludeId) {
-            $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM users WHERE log = ? AND id_user != ?");
-            $stmt->execute([$log, $excludeId]);
+        $stmt = $this->pdo->prepare("SELECT * FROM users WHERE id_user = ?");
+        $stmt->execute([$id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+    }
+
+    public function createUser(array $data): void
+    {
+        $stmt = $this->pdo->prepare("
+            INSERT INTO users (log, pass, username, role) VALUES (?, ?, ?, ?)
+        ");
+        $stmt->execute([
+            $data['log'],
+            $data['pass'],
+            $data['username'],
+            $data['role'],
+        ]);
+    }
+
+    public function updateUser(int $id, array $data): void
+    {
+        if ($data['pass']) {
+            $stmt = $this->pdo->prepare("
+                UPDATE users SET log = ?, pass = ?, username = ?, role = ? WHERE id_user = ?
+            ");
+            $stmt->execute([
+                $data['log'],
+                $data['pass'],
+                $data['username'],
+                $data['role'],
+                $id,
+            ]);
         } else {
-            $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM users WHERE log = ?");
-            $stmt->execute([$log]);
+            $stmt = $this->pdo->prepare("
+                UPDATE users SET log = ?, username = ?, role = ? WHERE id_user = ?
+            ");
+            $stmt->execute([
+                $data['log'],
+                $data['username'],
+                $data['role'],
+                $id,
+            ]);
         }
-        return $stmt->fetchColumn() > 0;
-    }
-
-    public function addUser(string $log, string $pass, string $username): void
-    {
-        $stmt = $this->pdo->prepare("INSERT INTO users (log, pass, username) VALUES (?, ?, ?)");
-        $stmt->execute([$log, $pass, $username]);
-    }
-
-    public function updateUser(int $id, string $log, string $pass, string $username): void
-    {
-        $stmt = $this->pdo->prepare("UPDATE users SET log = ?, pass = ?, username = ? WHERE id_user = ?");
-        $stmt->execute([$log, $pass, $username, $id]);
     }
 
     public function deleteUser(int $id): void
